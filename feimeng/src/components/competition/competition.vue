@@ -1,6 +1,6 @@
 <template>
   <div class="coursebg">
-    <div class="title">飞梦竞赛</div>
+    <div class="title">飞梦竞赛啊</div>
     <div class="coursemain">
       <div class="coursebanner">
         <div class="content">

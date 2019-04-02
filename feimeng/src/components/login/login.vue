@@ -54,6 +54,9 @@ export default {
     },
     getLogin() {
       let that = this
+      //登录接口 获取username 是用户名  pass 是用户密码 .then里面判断跟后台返回值是否一样
+//    他这个判断的应该是状态为1 就让他登录  userinfo就是用户的东西 后面的response.data是一串字符串
+//然后在下面setUsers方法里面存到localStorage里面
       axios.get(Global.baseURL + '/Mobile/into/login.html', {params: {
       username: that.username,
       pass: that.pass

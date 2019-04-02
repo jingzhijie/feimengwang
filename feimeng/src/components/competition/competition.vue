@@ -1,23 +1,29 @@
 <template>
-  <div class="coursebg">
-    <div class="title">飞梦竞赛啊</div>
-    <div class="coursemain">
-      <div class="coursebanner">
+  <div class="competitionbg">
+    <div class="competitionTitle">竞赛</div>
+    <div class="competitionmain">
+      <div class="competitionbanner">
         <div class="content">
           <img class="topimg" src="./coursebg.png" alt="" style="opacity:0">
         </div>
       </div>
-      <div class="courseList">
-        <!--<dl class="listdl" v-for="(item,index) in courseData.coursrs" :key = 'index' @click="selectClass(item.id)">
-          <dt><img :src="baseurl + item.thumb"></dt>
+      <div class="competitionList">
+        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index' @click="selectClass(item.id)">
+          <!--<dt><img :src="baseurl + item.thumb"></dt>
           <dd>
-            <div class="ddtop">{{item.title}}</div>
+            <div class="ddtop">{{item.competition_name}}</div>
             <div class="ddbtm">{{item.course_count}}课时</div>
-          </dd>
-        </dl>-->
+          </dd>-->
+          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
+          <div style="width: 85%; margin-left: 10px;">
+          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
+          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
+          	<p style="font-size: 14px;line-height: 30px;"><a href="javascript:;" style="color:#ffa939;">[详情]</a><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
+          </div>
+        </li>
       </div>
+    	<!--<m-cscatalog ref="coursecatalog" @updateData="selectClass" :data="coursecataData"></m-cscatalog>-->
     </div>
-    <!--<m-cscatalog ref="coursecatalog" @updateData="selectClass" :data="coursecataData"></m-cscatalog>-->
   </div>
 </template>
 
@@ -26,17 +32,12 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import axios from 'axios'
 import Global from 'common/js/global'
 import { Loading } from 'element-ui'
-import cscatalog from 'components/coursecatalog/coursecatalog'
+//import cscatalog from 'components/coursecatalog/coursecatalog'
 export default {
   data() {
     return {
-      swiperOption: {
-        pagination: {
-          el: '.swiper-pagination'
-        }
-      },
       baseurl: Global.baseURL,
-      courseData: {},
+      competition: {},
       coursecataData: {
         'LoginUserPhoto': '/Uploads/2018-03-08/5aa09b57ceb68.jpg',
         'courseInfo': {
@@ -101,202 +102,46 @@ export default {
             ]
           }
         ],
-        'message': [
-          {
-            'id': '67',
-            'wid': '7',
-            'message': '测试评论ceshi',
-            'who_message': '1107',
-            'message_who': '1',
-            'create_time': '06/22',
-            'pid': '0',
-            'category': '1',
-            'is_tutor': '0',
-            'username': 'Mrwang',
-            'photo': '/Uploads/2018-04-09/5acb2fba9fc7d.jpg'
-          },
-          {
-            'id': '42',
-            'wid': '7',
-            'message': '烦哦安排',
-            'who_message': '4',
-            'message_who': '1',
-            'create_time': '04/23',
-            'pid': '0',
-            'category': '1',
-            'is_tutor': '0',
-            'username': 'feiment0004',
-            'photo': null,
-            'sub_message': [
-              {
-                'id': '56',
-                'wid': '7',
-                'message': '我看着你不顺眼，别再我的文章下说话2',
-                'who_message': '1',
-                'message_who': '4',
-                'create_time': '04/25',
-                'pid': '42',
-                'category': '1',
-                'is_tutor': '1',
-                'username': '赵晓曼',
-                'photo': '/Uploads/2018-03-15/5aa9d1d029dbf.jpg'
-              },
-              {
-                'id': '50',
-                'wid': '7',
-                'message': '回复 Mrwang：回复一下',
-                'who_message': '6',
-                'message_who': '4',
-                'create_time': '04/24',
-                'pid': '42',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'feiment0006',
-                'photo': null
-              },
-              {
-                'id': '51',
-                'wid': '7',
-                'message': '回复 feiment0005：评论那么早干什么',
-                'who_message': '6',
-                'message_who': '4',
-                'create_time': '04/24',
-                'pid': '42',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'feiment0006',
-                'photo': null
-              },
-              {
-                'id': '43',
-                'wid': '7',
-                'message': '子类回复',
-                'who_message': '5',
-                'message_who': '4',
-                'create_time': '04/23',
-                'pid': '42',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'feiment0005',
-                'photo': null
-              },
-              {
-                'id': '44',
-                'wid': '7',
-                'message': '回复 Mrwang：按时打发地方',
-                'who_message': '1107',
-                'message_who': '5',
-                'create_time': '04/23',
-                'pid': '42',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'Mrwang',
-                'photo': '/Uploads/2018-04-09/5acb2fba9fc7d.jpg'
-              },
-              {
-                'id': '45',
-                'wid': '7',
-                'message': '回复 Mrwang：阿萨房东',
-                'who_message': '1107',
-                'message_who': '5',
-                'create_time': '04/23',
-                'pid': '42',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'Mrwang',
-                'photo': '/Uploads/2018-04-09/5acb2fba9fc7d.jpg'
-              },
-              {
-                'id': '49',
-                'wid': '7',
-                'message': '发表',
-                'who_message': '1107',
-                'message_who': '4',
-                'create_time': '04/23',
-                'pid': '42',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'Mrwang',
-                'photo': '/Uploads/2018-04-09/5acb2fba9fc7d.jpg'
-              }
-            ]
-          },
-          {
-            'id': '40',
-            'wid': '7',
-            'message': '在线课程发表一条留言',
-            'who_message': '4',
-            'message_who': '1',
-            'create_time': '04/23',
-            'pid': '0',
-            'category': '1',
-            'is_tutor': '0',
-            'username': 'feiment0004',
-            'photo': null,
-            'sub_message': [
-              {
-                'id': '55',
-                'wid': '7',
-                'message': '我看着你不顺眼，别再我的文章下说话',
-                'who_message': '1',
-                'message_who': '4',
-                'create_time': '04/25',
-                'pid': '40',
-                'category': '1',
-                'is_tutor': '1',
-                'username': '赵晓曼',
-                'photo': '/Uploads/2018-03-15/5aa9d1d029dbf.jpg'
-              },
-              {
-                'id': '41',
-                'wid': '7',
-                'message': '没索拉卡上课了上课了上课了上课了可莱丝',
-                'who_message': '1107',
-                'message_who': '4',
-                'create_time': '04/23',
-                'pid': '40',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'Mrwang',
-                'photo': '/Uploads/2018-04-09/5acb2fba9fc7d.jpg'
-              },
-              {
-                'id': '46',
-                'wid': '7',
-                'message': '回复 Mrwang：打发的说法的是',
-                'who_message': '1107',
-                'message_who': '4',
-                'create_time': '04/23',
-                'pid': '40',
-                'category': '1',
-                'is_tutor': '0',
-                'username': 'Mrwang',
-                'photo': '/Uploads/2018-04-09/5acb2fba9fc7d.jpg'
-              }
-            ]
-          }
-        ],
         'is_login': 0
       }
     }
   },
   mounted () {
     this.getdata()
-    this.getCourse()
+    this.getCompetition()
   },
   methods: {
-    getCourse() {
+    getCompetition() {
       let that = this
       let loading = Loading.service({
           lock: true,
           text: '拼命加载中',
           background: 'rgba(0, 0, 0, 0.8)'
       })
-      //无传参调用接口
-      axios.get(Global.baseURL + '/Mobile/Index/competition.html').then((response) => {
-        that.courseData = response.data
-         // console.log(that.courseData)
+      axios.get(Global.baseURL + '/Mobile/Competition/Lists.html', {
+           params: {
+          	uid: that.myData.uid
+        }}).then((response) => {
          loading.close()
+        that.competition = response.data;
+//      console.log(that.competition.data.list)
+        //判断竞赛状态
+	      // 在这获取到数据后添加一个私有属性，
+        that.competition.data.list.forEach(item => {
+          if(item.status == 2){
+            // 根据状态显示不同的内容
+            item.competitionState = '查看结果'
+          }else if(item.status == 1){
+	          	if(item.is_sign == 1){
+	            item.competitionState = '我已报名'
+	          }else{
+	          	item.competitionState = '我要报名'
+	          }
+          } else {
+          	//其他情况
+          }
+        })
+	      
        })
        .catch(function (error) {
           console.log(error)
@@ -306,24 +151,23 @@ export default {
          let that = this
          let userinfo = JSON.parse(localStorage.getItem('userInfo'))
          that.myData = userinfo.data
-         // console.log(that.myData)
+//          console.log(that.myData)
        },
        selectClass(id) {
-         // console.log(id)
+            console.log(id)
          let that = this
-         that.$refs.coursecatalog.show()
+//			子页面显示
+//       that.$refs.coursecatalog.show()
          let loading = Loading.service({
              lock: true,
              text: '拼命加载中',
              background: 'rgba(0, 0, 0, 0.8)'
          })
-      //有传参调用接口
-      //params 是给后台传送的参数 then()是接收的数据response
-         axios.get(Global.baseURL + '/Mobile/Index/catalog.html', {
+         axios.get(Global.baseURL + '/Mobile/Competition/detail.html', {
            params: {
            id: id, uid: that.myData.uid
         }}).then((response) => {
-              // console.log(response.data)
+                 console.log(response.data)
               that.coursecataData = response.data
               loading.close()
            })
@@ -332,28 +176,27 @@ export default {
     components: {
       swiper,
       swiperSlide,
-      'm-cscatalog': cscatalog
+//    'm-cscatalog': cscatalog
     }
 }
 </script>
-
 <style lang="stylus" rel="stylesheet/stylus">
-.coursebg
+.competitionbg
     background: url(./indexbg.png) no-repeat
     background-size: 100%
     width: 100%
     height: 100%
     overflow-y: scroll
     -webkit-overflow-scrolling: touch
-    .title
+    .competitionTitle
       text-align:center
       font-size: 20px
       line-height: 60px
       color: #fff
-    .coursemain
+    .competitionmain
       width: 100%
       margin-bottom:44px
-      .coursebanner
+      .competitionbanner
         background: url(./bannerbg.png)
         background-size: cover
         .content
@@ -365,12 +208,12 @@ export default {
             width: 100%
             margin-top: 40px
           .swiper-container
-            width: 100%
+            /*width: 100%*/
             height: 100%
             margin-top: 40px
             border-radius: 15px
             .swiper-wrapper
-              width: 100%
+              /*width: 100%*/
               height: 100%
               .swiper-slide
                 width: 78.5%
@@ -396,7 +239,7 @@ export default {
                 margin: 0 2px
               .swiper-pagination-bullet-active
                 background: #ffca59
-      .courseList
+      .competitionList
         padding-left: 0.5%
         width: 99.5%
         background: #fff url(./courselistbg.png) no-repeat
@@ -404,9 +247,10 @@ export default {
         padding-bottom: 20px
         margin-top: -30%
         .listdl
-          width: 43%
-          margin: 15px 3% 0
-          display: inline-block
+          width: 96.5%
+          line-height:90px
+          margin: 15px 2% 0
+          display: flex
           background: #f0f8ff
           border-radius: 8px
           dt
@@ -415,7 +259,7 @@ export default {
             border: 3px solid #a1d3ff
             overflow: hidden
             img
-              width: 100%
+              width: 10%
           dd
             margin: 0 4px
             .ddtop

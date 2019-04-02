@@ -324,7 +324,7 @@ export default {
            params: {
            id: id, uid: that.myData.uid
         }}).then((response) => {
-                 console.log(response.data)
+//               console.log(response.data)
               that.coursecataData = response.data
               loading.close()
            })

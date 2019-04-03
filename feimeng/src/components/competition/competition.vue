@@ -14,23 +14,7 @@
 	          <div style="width: 85%; margin-left: 10px;">
 	          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
 	          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
-	          	<p style="font-size: 14px;line-height: 30px;"><router-link to="/competition/competitionDetail"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
-	          </div>
-	        </li>
-	        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
-	          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
-	          <div style="width: 85%; margin-left: 10px;">
-	          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
-	          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
-	          	<p style="font-size: 14px;line-height: 30px;"><router-link to="/competition/competitionDetail"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
-	          </div>
-	        </li>
-	        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
-	          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
-	          <div style="width: 85%; margin-left: 10px;">
-	          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
-	          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
-	          	<p style="font-size: 14px;line-height: 30px;"><router-link to="/competition/competitionDetail"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
+	          	<p style="font-size: 14px;line-height: 30px;"><router-link :to="{path:'/competitionDetail',query: {id: item.id}}"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
 	          </div>
 	        </li>
       </div>
@@ -42,8 +26,7 @@
       	<!--赛前模拟-->
       	<a @click="simulation">赛前模拟</a>
       </div>
-    </div>	
-     	<router-view></router-view>
+    </div>
   </div>
  
 </template>
@@ -60,7 +43,9 @@ export default {
       baseurl: Global.baseURL,
       competition: {
 				data: {
-					list: []
+					list: [
+					
+					]
 				}
 			}
     }
@@ -125,21 +110,21 @@ export default {
 //          console.log(that.myData)
        },
        selectClass(id) {
-            console.log(id)
+//          console.log(id)
          let that = this
          let loading = Loading.service({
              lock: true,
              text: '拼命加载中',
              background: 'rgba(0, 0, 0, 0.8)'
          })
-         axios.get(Global.baseURL + '/Mobile/Competition/detail.html', {
-           params: {
-           id: id, uid: that.myData.uid
-        }}).then((response) => {
-              that.coursecataData = response.data
-              console.log(that.coursecataData.data)
-              loading.close()
-           })
+//       axios.get(Global.baseURL + '/Mobile/Competition/detail.html', {
+//         params: {
+//         id: id, uid: that.myData.uid
+//      }}).then((response) => {
+//            that.coursecataData = response.data
+//            console.log(that.coursecataData.data)
+//            loading.close()
+//         })
        }
      },
     components: {

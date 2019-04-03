@@ -27,18 +27,12 @@ const router = new Router({
     },
     {
       path: '/competition',
-      component: Competition,
-	      children:[
-	        {
-	            path:'/competition/competitionDetail',
-	            component:CompetitionDetail
-	        },
-	        {
-	            path:'/competition/a',
-	            component:Aa
-	        }
-	      ]
+      component: Competition
     },
+    {
+		    path:'/competitionDetail',
+		    component:CompetitionDetail
+		},
     {
       path: '/login',
       name: 'login',

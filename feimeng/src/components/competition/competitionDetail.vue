@@ -1,7 +1,9 @@
 <template>
 	<div class="container" >
-		<div class="title"><img class="back" @click="goback" src="./back.png" alt=""/> 飞梦网</div>
-		
+		<div class="title"><img class="back" @click="$router.go(-1)" src="./back.png" alt=""/> 飞梦网</div>
+		<div class="content" v-html="competitionDetail.content">
+			<!--{{competitionDetail.content}}-->
+		</div>
 	</div>
 </template>
 
@@ -14,53 +16,47 @@ export default {
   data() {
     return {
       baseurl: Global.baseURL,
-      competition: {
-				data: {
-					list: []
-				}
-			}
+      competitionDetail: {
+      	content:''
+      }
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      // 对路由变化作出响应...
+//    console.log(this.$route.query.id,'-------------id')
+      if(this.$route.query.id) {
+      	this.getCompetitionDetail(this.$route.query.id)
+      }
     }
   },
   created () {
     this.getdata()
-    this.getCompetitionDetail()
+    this.getCompetitionDetail(this.$route.query.id)
+
   },
-  methods:{
-  	goback(){
-  		this.$router.go(-1)
-  	},
-  	getCompetitionDetail() {
+  methods:{	
+  	getCompetitionDetail(id) {
       let that = this
       let loading = Loading.service({
           lock: true,
           text: '拼命加载中',
           background: 'rgba(0, 0, 0, 0.8)'
       })
-//    axios.get(Global.baseURL + '/Mobile/Competition/detail.html', {
-//         params: {
-//        	id: id, uid: that.myData.uid
-//      }}).then((response) => {
-//       loading.close()
-//      that.competitionDetail = response.data;
-//      console.log(that.competitionDetail)
-////      that.competition.data.list.forEach(item => {
-////      })
-//	      
-//     })
-         axios.get(Global.baseURL + '/Mobile/Competition/detail.html').then((response) => {
-        that.competitionDetail = response.data
-            console.log(that.competitionDetail)
+      axios.get(Global.baseURL + '/Mobile/Competition/detail.html', {
+           params: {
+          	id: id, uid: that.myData.uid
+        }}).then((response) => {
          loading.close()
+        that.competitionDetail = response.data.data;
+//	      console.log(that.competitionDetail.data.content)
        })
-       .catch(function (error) {
-          console.log(error)
-        })
        },
   	 getdata() {
          let that = this
          let userinfo = JSON.parse(localStorage.getItem('userInfo'))
          that.myData = userinfo.data
-//          console.log(that.myData)
+            
        }
   },
     components: {
@@ -80,6 +76,8 @@ export default {
 		position: absolute;
 		top: 0;
 		display: block;
+		overflow-y: scroll;
+    	-webkit-overflow-scrolling: touch;
 	}
 	.back{
 		 width: 10px;

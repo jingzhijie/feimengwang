@@ -8,23 +8,44 @@
         </div>
       </div>
       <div class="competitionList">
-        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index' @click="selectClass(item.id)">
-          <!--<dt><img :src="baseurl + item.thumb"></dt>
-          <dd>
-            <div class="ddtop">{{item.competition_name}}</div>
-            <div class="ddbtm">{{item.course_count}}课时</div>
-          </dd>-->
-          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
-          <div style="width: 85%; margin-left: 10px;">
-          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
-          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
-          	<p style="font-size: 14px;line-height: 30px;"><a href="javascript:;" style="color:#ffa939;">[详情]</a><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
-          </div>
-        </li>
+      	 
+	        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
+	          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
+	          <div style="width: 85%; margin-left: 10px;">
+	          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
+	          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
+	          	<p style="font-size: 14px;line-height: 30px;"><router-link to="/competition/competitionDetail"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
+	          </div>
+	        </li>
+	        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
+	          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
+	          <div style="width: 85%; margin-left: 10px;">
+	          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
+	          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
+	          	<p style="font-size: 14px;line-height: 30px;"><router-link to="/competition/competitionDetail"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
+	          </div>
+	        </li>
+	        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
+	          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
+	          <div style="width: 85%; margin-left: 10px;">
+	          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
+	          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
+	          	<p style="font-size: 14px;line-height: 30px;"><router-link to="/competition/competitionDetail"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
+	          </div>
+	        </li>
       </div>
-    	<!--<m-cscatalog ref="coursecatalog" @updateData="selectClass" :data="coursecataData"></m-cscatalog>-->
-    </div>
+       <div  v-for="(item,index) in competition.data.list">
+       	<!--要求-->
+      	<a @click="requirements">参赛要求</a>
+      	<!--报名-->
+      	<a @click="isignUp">{{item.competitionState}}</a>
+      	<!--赛前模拟-->
+      	<a @click="simulation">赛前模拟</a>
+      </div>
+    </div>	
+     	<router-view></router-view>
   </div>
+ 
 </template>
 
 <script type="text/ecmascript-6">
@@ -32,85 +53,35 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import axios from 'axios'
 import Global from 'common/js/global'
 import { Loading } from 'element-ui'
-//import cscatalog from 'components/coursecatalog/coursecatalog'
+import CompetitionDetail from 'components/competition/competitionDetail'
 export default {
   data() {
     return {
       baseurl: Global.baseURL,
-      competition: {},
-      coursecataData: {
-        'LoginUserPhoto': '/Uploads/2018-03-08/5aa09b57ceb68.jpg',
-        'courseInfo': {
-          'id': '7',
-          'title': '航空精神',
-          'nodus': [
-            '根据科学家目前探测的结果，已发现的最大的黑洞是太阳质量的几十亿倍。尽管目前人类还无法直接观测黑洞，但科学家已经证实了超级黑洞的存在，甚至还有双巨型黑洞存在。',
-            '那么，巨型黑洞的存在，到底有什么意义呢？对此问题，科学家提出了许多相关的理论，但由于目前科技水平的限制，导致科学家无法进行证明。'
-          ],
-          'target': [
-            'ThinkPHP5 是上海顶想信息科技有限公司于2006年创立的，经过长期的升级和维护是目前国内使用最多的PHP框架，2016年thinkPHP发布了5.0版本。',
-            'ThinkPHP5.0版本是一个颠覆和重构版本，采用全新的架构思想，引入了更多的PHP新特性，优化了核心，减少了依赖，实现了真正的惰性加载，支持composer，并针对API开发做了大量的优化，包括路由、日志、异常、模型、数据库、模板引擎和验证等模块都已经重构'
-          ],
-          'info': [
-            '根据科学家目前探测的结果，已发现的最大的黑洞是太阳质量的几十亿倍。',
-            '尽管目前人类还无法直接观测黑洞，但科学家已经证实了超级黑洞的存在，甚至还有双巨型黑洞存在。那么，巨型黑洞的存在，到底有什么意义呢？对此问题，科学家提出了许多相关的理论，但由于目前科技水平的限制，导致科学家无法进行证明。'
-          ],
-          'mentor_id': '1',
-          'tutor': {
-            'id': '1',
-            'mentor_name': '赵晓曼',
-            'photo': '/Uploads/2018-03-15/5aa9d1d029dbf.jpg',
-            'info': '智慧家幼小衔接班数学老师,对学龄前儿童有丰富的教学经验,深受学生们的喜爱。'
-          }
-        },
-        'courseList': [
-          {
-            'id': '6',
-            'title': 'PhpStorm的基本操作',
-            'subClass': [
-              {
-                'id': '2',
-                'title': 'cookie其它常用',
-                'thumb': '/Uploads/2018-06-19/5b285f11c2dd8.jpg'
-              },
-              {
-                'id': '24',
-                'title': '黑洞，是宇宙中最神秘最恐怖的天体。而黑洞之中，超级黑洞尤其可怕。',
-                'thumb': '/Uploads/2018-06-27/5b333b2c81e35.jpg'
-              },
-              {
-                'id': '25',
-                'title': '必须在爆炸时拥有极大质量的内核才有足够的引力',
-                'thumb': '/Uploads/2018-06-27/5b333b691957a.jpg'
-              },
-              {
-                'id': '26',
-                'title': '根据科学家目前探测的结果，已发现的最大的黑洞是太阳质量的几十亿倍',
-                'thumb': '/Uploads/2018-06-27/5b333bbb547bb.jpg'
-              }
-            ]
-          },
-          {
-            'id': '15',
-            'title': 'PhpStorm进阶',
-            'subClass': [
-              {
-                'id': '40',
-                'title': '测试',
-                'thumb': '/Uploads/2018-07-16/5b4c0f36033f8.jpg'
-              }
-            ]
-          }
-        ],
-        'is_login': 0
-      }
+      competition: {
+				data: {
+					list: []
+				}
+			}
     }
   },
-  mounted () {
+  created () {
     this.getdata()
     this.getCompetition()
   },
   methods: {
+  	//参赛要求
+  	requirements(){
+  		
+  	},
+  	//我要报名
+  	isignUp(){
+  		
+  	},
+  	//赛前模拟
+  	simulation(){
+  		
+  	},
     getCompetition() {
       let that = this
       let loading = Loading.service({
@@ -156,8 +127,6 @@ export default {
        selectClass(id) {
             console.log(id)
          let that = this
-//			子页面显示
-//       that.$refs.coursecatalog.show()
          let loading = Loading.service({
              lock: true,
              text: '拼命加载中',
@@ -167,8 +136,8 @@ export default {
            params: {
            id: id, uid: that.myData.uid
         }}).then((response) => {
-                 console.log(response.data)
               that.coursecataData = response.data
+              console.log(that.coursecataData.data)
               loading.close()
            })
        }
@@ -176,7 +145,7 @@ export default {
     components: {
       swiper,
       swiperSlide,
-//    'm-cscatalog': cscatalog
+      CompetitionDetail,
     }
 }
 </script>

@@ -6,6 +6,8 @@ import Discovery from '@/components/discovery/discovery'
 import Login from '@/components/login/login'
 import My from '@/components/my/my'
 import Competition from '@/components/competition/competition'
+import CompetitionDetail from '@/components/competition/competitionDetail'
+import Aa from '@/components/competition/a'
 Vue.use(Router)
 
 const router = new Router({
@@ -25,7 +27,17 @@ const router = new Router({
     },
     {
       path: '/competition',
-      component: Competition
+      component: Competition,
+	      children:[
+	        {
+	            path:'/competition/competitionDetail',
+	            component:CompetitionDetail
+	        },
+	        {
+	            path:'/competition/a',
+	            component:Aa
+	        }
+	      ]
     },
     {
       path: '/login',

@@ -20,7 +20,7 @@
     </router-link>
     <router-link tag="div" class="tab-item" to="/competition">
       <dl class="">
-        <dt><img class="ficon1" src="./ficon3a.png" height="25"><img class="ficon2" src="./ficon3b.png" height="25"></dt>
+        <dt><img class="ficon1" src="./ficon5a.png" height="25"><img class="ficon2" src="./ficon5b.png" height="25"></dt>
         <dd>竞赛</dd>
       </dl>
     </router-link>

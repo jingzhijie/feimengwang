@@ -4,28 +4,49 @@
     <div class="competitionmain">
       <div class="competitionbanner">
         <div class="content">
-          <img class="topimg" src="./coursebg.png" alt="" style="opacity:0">
+        	<div class="recommendbg">
+        		<div class="recommendbg-title">
+        			<p>歌尔杯2018荣成全国航空 嘉年华活动成功起航</p>
+        		</div>
+        		<ul class="recommendul">
+        			<li>
+        				<img src="./fmjs_icon1.png" />
+        				<span>参赛要求</span>
+        			</li>
+        			<li>
+        				<img src="./fmjs_icon2.png" />
+        				<span>{{recommendStatus}}</span>
+        			</li>
+        			<li>
+        				<img src="./fmjs_icon3.png" />
+        				<span>赛前模拟</span>
+        			</li>
+        		</ul>
+        	</div>
         </div>
       </div>
       <div class="competitionList">
-      	 
-	        <li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
-	          <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
-	          <div style="width: 85%; margin-left: 10px;">
-	          	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
-	          	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
-	          	<p style="font-size: 14px;line-height: 30px;"><router-link :to="{path:'/competitionDetail',query: {id: item.id}}"><span @click="selectClass(item.id)" href="javascript:;" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
-	          </div>
-	        </li>
+      	<li class="listDetail" v-for="(item,index) in competition.data.list" :key = 'index' >
+	      		<router-link :to="{path:'/competitionDetail',query: {id: item.id}}"><div class="img"><img :src="baseurl + item.thumb" style="width: 100px;height: 100px;"/></div></router-link>
+	      		<div class="listDetail_right">
+	      			<p class="listDetail_right_title">{{item.competition_name}}</p>
+	      			<div class="listDetail_right_btn">
+	      				<span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />{{item.competitionState}}</span>
+	      			</div>
+	      		</div>
+	      		<a class="da"></a>
+      	</li>
+		    <!--<li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
+		      <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
+		      <div style="width: 85%; margin-left: 10px;">
+		      	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
+		      	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
+		      	<p style="font-size: 14px;line-height: 30px;"><router-link :to="{path:'/competitionDetail',query: {id: item.id}}"><span @click="selectClass(item.id)" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
+		      </div>
+		    </li>-->
       </div>
-       <div  v-for="(item,index) in competition.data.list">
-       	<!--要求-->
-      	<a @click="requirements">参赛要求</a>
-      	<!--报名-->
-      	<a @click="isignUp">{{item.competitionState}}</a>
-      	<!--赛前模拟-->
-      	<a @click="simulation">赛前模拟</a>
-      </div>
+      
+      
     </div>
   </div>
  
@@ -44,10 +65,11 @@ export default {
       competition: {
 				data: {
 					list: [
-					
+						
 					]
-				}
-			}
+				},
+			},
+			recommendStatus:''
     }
   },
   created () {
@@ -55,15 +77,11 @@ export default {
     this.getCompetition()
   },
   methods: {
-  	//参赛要求
-  	requirements(){
-  		
-  	},
-  	//我要报名
+//  	我要报名
   	isignUp(){
   		
   	},
-  	//赛前模拟
+//  	赛前模拟
   	simulation(){
   		
   	},
@@ -80,8 +98,8 @@ export default {
         }}).then((response) => {
          loading.close()
         that.competition = response.data;
-//      console.log(that.competition.data.list)
-        //判断竞赛状态
+//      console.log(that.competition.data)
+        //判断列表页竞赛状态
 	      // 在这获取到数据后添加一个私有属性，
         that.competition.data.list.forEach(item => {
           if(item.status == 2){
@@ -97,7 +115,23 @@ export default {
           	//其他情况
           }
         })
-	      
+        //判断推荐列表竞赛状态
+        let recommendStatus = that.competition.data.recommend.status;
+        let recommendSign = that.competition.data.recommend.is_sign;
+//      console.log(recommendStatus)
+//      console.log(recommendSign)
+          if(recommendStatus == 2){
+            // 根据状态显示不同的内容
+            this.recommendStatus = '查看结果'
+          }else if(recommendStatus == 1){
+	          	if(recommendSign == 1){
+	            this.recommendStatus = '我已报名'
+	          }else{
+	          	this.recommendStatus = '我要报名'
+	          }
+          } else {
+          	//其他情况
+          }
        })
        .catch(function (error) {
           console.log(error)
@@ -149,84 +183,95 @@ export default {
       color: #fff
     .competitionmain
       width: 100%
+      height:250px
       margin-bottom:44px
       .competitionbanner
         background: url(./bannerbg.png)
         background-size: cover
         .content
           padding: 0 14px
+          height:200px
           overflow: hidden
           position: relative
-          z-index: -1
-          .topimg
-            width: 100%
-            margin-top: 40px
-          .swiper-container
-            /*width: 100%*/
-            height: 100%
-            margin-top: 40px
-            border-radius: 15px
-            .swiper-wrapper
-              /*width: 100%*/
-              height: 100%
-              .swiper-slide
-                width: 78.5%
-                transition: all .5s;
-                .txt
-                  position: absolute
-                  top: 50%
-                  left: 50%
-                  transform: translate(-50%, -50%)
-                  color: #ffffff
-                  font-size:18px
-                  font-weight: bold
-                img
-                  width: 100%
-            .swiper-pagination-bullets
-              left: 31%
-              bottom: 2%
-              .swiper-pagination-bullet
-                width: 5px
-                height: 5px
-                background: #e7e7e7
-                opacity: 1
-                margin: 0 2px
-              .swiper-pagination-bullet-active
-                background: #ffca59
+          .recommendbg
+          	width:93%
+          	height:70%
+          	background: url(./beibeibg.png) no-repeat
+          	background-size: 100% 100%
+          	position:absolute
+          	top:40px
+          	.recommendbg-title
+          	 width:70%
+          	 margin-left:25%
+          	 padding:20px 3%
+          	p
+          	 	 font-size:20px
+          	 	 color:white
+          	 	 font-weight:bold
+          	 	 letter-spacing:2px
+          	 	 line-height:25px
+          	.recommendul
+          	 width:100%
+          	 display:flex
+          	 justify-content:space-around
+          		li
+          			display:flex
+          			width:90px
+          			line-height:20px
+          			padding:5px 10px
+          			font-size:14px
+          			border-radius:5px
+          			background:#ffeea3
+          			justify-content:center
+          			span
+          				margin-left:5px 
+          			img
+          				width:20px
+          				height:20px
+          			
+          			
       .competitionList
-        padding-left: 0.5%
-        width: 99.5%
+        width: 100%
         background: #fff url(./courselistbg.png) no-repeat
+        overflow: hidden
         background-size: 100%
         padding-bottom: 20px
-        margin-top: -30%
-        .listdl
-          width: 96.5%
-          line-height:90px
-          margin: 15px 2% 0
-          display: flex
-          background: #f0f8ff
-          border-radius: 8px
-          dt
-            border-radius: 8px
-            box-sizing: border-box
-            border: 3px solid #a1d3ff
-            overflow: hidden
-            img
-              width: 10%
-          dd
-            margin: 0 4px
-            .ddtop
-              line-height: 22px
-              font-size: 15px
-              margin-top: 4px
-              border-bottom: 1px dashed #a3d4ff
-              color: #222
-              text-align: center
-            .ddbtm
-              line-height: 23px
-              font-size: 12px
-              color: #0e91d8
-              text-align: center
-
+        display:flex
+        justify-content:center
+        flex-wrap: wrap
+				.listDetail
+				 width:90%
+				 height:100px
+				 border:1px solid #0085ea
+				 margin-bottom:10px
+				 border-radius:10px
+				 padding:10px
+				 display:flex
+				 .img
+				 	width:29%
+				 	height:100px
+				 	margin-right:10px
+				 .listDetail_right
+				 		width:71%
+				 		height:100px
+						.listDetail_right_title
+						 	width:100%
+						 	font-size:20px	
+						 	font-weight:bold
+						 	line-height:30px
+						 	height:60px
+						 	letter-spacing:3px
+				 		.listDetail_right_btn
+						 	width:100%
+						 	height:40px
+						  line-height:40px
+						  .signUp
+						   padding:7px 15px
+						   background:#0083e7
+						   border-radius:20px
+						   line-height:10px
+						   float:right
+						   margin-top:10px
+						   color:white
+						   font-size:14px
 </style>

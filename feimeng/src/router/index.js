@@ -7,7 +7,7 @@ import Login from '@/components/login/login'
 import My from '@/components/my/my'
 import Competition from '@/components/competition/competition'
 import CompetitionDetail from '@/components/competition/competitionDetail'
-import Aa from '@/components/competition/a'
+import SignUp from '@/components/csignup/signup'
 Vue.use(Router)
 
 const router = new Router({
@@ -29,6 +29,10 @@ const router = new Router({
       path: '/competition',
       component: Competition
     },
+    {
+		    path:'/signup',
+		    component:SignUp
+		},
     {
 		    path:'/competitionDetail',
 		    component:CompetitionDetail

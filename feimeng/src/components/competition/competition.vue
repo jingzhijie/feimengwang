@@ -11,11 +11,11 @@
         		<ul class="recommendul">
         			<li>
         				<img src="./fmjs_icon1.png" />
-        				<span>参赛要求</span>
+        				<router-link :to="{path:'/competitionDetail',query: {id: 8}}"><span>参赛要求</span></router-link>
         			</li>
         			<li>
         				<img src="./fmjs_icon2.png" />
-        				<span>{{recommendStatus}}</span>
+        				<router-link to="/signup"><span>{{recommendStatus}}</span></router-link>
         			</li>
         			<li>
         				<img src="./fmjs_icon3.png" />
@@ -34,16 +34,8 @@
 	      				<span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />{{item.competitionState}}</span>
 	      			</div>
 	      		</div>
-	      		<a class="da"></a>
+	      		<!--<a class="da"></a>-->
       	</li>
-		    <!--<li class="listdl" v-for="(item,index) in competition.data.list" :key = 'index'>
-		      <div class="img"><img :src="baseurl + item.thumb" style="width: 90px;height: 90px;"/> </div>
-		      <div style="width: 85%; margin-left: 10px;">
-		      	<p style="width: 95%;line-height: 30px; margin-top: 5px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">{{item.competition_name}}</p>
-		      	<p style="font-size: 14px;line-height: 20px;color: #999;">{{item.info}}</p>
-		      	<p style="font-size: 14px;line-height: 30px;"><router-link :to="{path:'/competitionDetail',query: {id: item.id}}"><span @click="selectClass(item.id)" style="color:#ffa939;">[详情]</span></router-link><a class="signUp" href="javascript:;" style="color:#0188cc;float: right;">{{item.competitionState}}</a></p>
-		      </div>
-		    </li>-->
       </div>
       
       
@@ -58,6 +50,7 @@ import axios from 'axios'
 import Global from 'common/js/global'
 import { Loading } from 'element-ui'
 import CompetitionDetail from 'components/competition/competitionDetail'
+import signUp from 'components/csignup/signup'
 export default {
   data() {
     return {
@@ -225,6 +218,8 @@ export default {
           			justify-content:center
           			span
           				margin-left:5px 
+          			a
+          				color:#000	
           			img
           				width:20px
           				height:20px

@@ -4,7 +4,7 @@
 		<div class="detailTitle">{{competitionDetail.competition_name}}</div>
 		<div class="selectBtn">
 			<a class="analog"><img src="./moni.png" class="signimg" />赛前模拟</a>
-			<a class="signUp"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a>
+			<router-link :to="{path:'/signup',query: {id: this.$route.query.id}}"><a class="signUp"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a></router-link>
 		</div>
 		<div class="content1" v-html="competitionDetail.content">
 
@@ -59,7 +59,7 @@
 				}).then((response) => {
 					loading.close()
 					that.competitionDetail = response.data.data;
-					console.log(that.competitionDetail)
+//					console.log(that.competitionDetail)
 					//判断竞赛状态
 					let raceStatus = that.competitionDetail.status;
 					let raceSign = that.competitionDetail.is_sign;

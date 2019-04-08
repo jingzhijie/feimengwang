@@ -15,7 +15,7 @@
         			</li>
         			<li>
         				<img src="./fmjs_icon2.png" />
-        				<router-link to="/signup"><span>{{recommendStatus}}</span></router-link>
+        				<router-link :to="{path:'/competitionDetail',query: {id: 8}}"><span>{{recommendStatus}}</span></router-link>
         			</li>
         			<li>
         				<img src="./fmjs_icon3.png" />

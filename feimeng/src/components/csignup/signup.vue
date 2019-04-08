@@ -35,7 +35,23 @@
 		</div>
 		<div class="xian"><div class="neixian"></div></div>
 		<div class="region">
-			<p><b style="color: red;">*</b>所在地区<el-cascader placeholder="请选择所在地区" :options="options" change-on-select style="width: 280px;margin-left: 5px;"></el-cascader></p>
+			<p><b style="color: red;">*</b>所在地区
+				<el-select v-model="provinces" placeholder="请选择" @change="changeProvinces" style="width: 100px;margin-left: 10px;">
+			    <el-option
+			      v-for="item in options"
+			      :label="item.name"
+			      :value="item.id" >
+			    </el-option>
+			  </el-select>
+				<el-select v-model="city" placeholder="请选择" style="width: 100px;">
+			    <el-option
+			      v-for="item in optionsChild"
+			      :label="item.name"
+			      :value="item.id">
+			    </el-option>
+			  </el-select>
+			  <el-input v-model="form.address" placeholder="请输入" style="width: 100px;margin-left: 5px;"></el-input>
+			</p>
 		</div>
 		<div class="xian"><div class="neixian"></div></div>
 		<div class="tel">
@@ -76,204 +92,14 @@
 		          idNumber:'',
 		          schoolName:'',
 		          email:'',
+		          address:''
 		        },
 				baseurl: Global.baseURL,
 				competitionStatus: '',
-				options: [{
-          value: 'zhinan',
-          label: '指南',
-          children: [{
-            value: 'shejiyuanze',
-            label: '设计原则',
-            children: [{
-              value: 'yizhi',
-              label: '一致'
-            }, {
-              value: 'fankui',
-              label: '反馈'
-            }, {
-              value: 'xiaolv',
-              label: '效率'
-            }, {
-              value: 'kekong',
-              label: '可控'
-            }]
-          }, {
-            value: 'daohang',
-            label: '导航',
-            children: [{
-              value: 'cexiangdaohang',
-              label: '侧向导航'
-            }, {
-              value: 'dingbudaohang',
-              label: '顶部导航'
-            }]
-          }]
-        }, {
-          value: 'zujian',
-          label: '组件',
-          children: [{
-            value: 'basic',
-            label: 'Basic',
-            children: [{
-              value: 'layout',
-              label: 'Layout 布局'
-            }, {
-              value: 'color',
-              label: 'Color 色彩'
-            }, {
-              value: 'typography',
-              label: 'Typography 字体'
-            }, {
-              value: 'icon',
-              label: 'Icon 图标'
-            }, {
-              value: 'button',
-              label: 'Button 按钮'
-            }]
-          }, {
-            value: 'form',
-            label: 'Form',
-            children: [{
-              value: 'radio',
-              label: 'Radio 单选框'
-            }, {
-              value: 'checkbox',
-              label: 'Checkbox 多选框'
-            }, {
-              value: 'input',
-              label: 'Input 输入框'
-            }, {
-              value: 'input-number',
-              label: 'InputNumber 计数器'
-            }, {
-              value: 'select',
-              label: 'Select 选择器'
-            }, {
-              value: 'cascader',
-              label: 'Cascader 级联选择器'
-            }, {
-              value: 'switch',
-              label: 'Switch 开关'
-            }, {
-              value: 'slider',
-              label: 'Slider 滑块'
-            }, {
-              value: 'time-picker',
-              label: 'TimePicker 时间选择器'
-            }, {
-              value: 'date-picker',
-              label: 'DatePicker 日期选择器'
-            }, {
-              value: 'datetime-picker',
-              label: 'DateTimePicker 日期时间选择器'
-            }, {
-              value: 'upload',
-              label: 'Upload 上传'
-            }, {
-              value: 'rate',
-              label: 'Rate 评分'
-            }, {
-              value: 'form',
-              label: 'Form 表单'
-            }]
-          }, {
-            value: 'data',
-            label: 'Data',
-            children: [{
-              value: 'table',
-              label: 'Table 表格'
-            }, {
-              value: 'tag',
-              label: 'Tag 标签'
-            }, {
-              value: 'progress',
-              label: 'Progress 进度条'
-            }, {
-              value: 'tree',
-              label: 'Tree 树形控件'
-            }, {
-              value: 'pagination',
-              label: 'Pagination 分页'
-            }, {
-              value: 'badge',
-              label: 'Badge 标记'
-            }]
-          }, {
-            value: 'notice',
-            label: 'Notice',
-            children: [{
-              value: 'alert',
-              label: 'Alert 警告'
-            }, {
-              value: 'loading',
-              label: 'Loading 加载'
-            }, {
-              value: 'message',
-              label: 'Message 消息提示'
-            }, {
-              value: 'message-box',
-              label: 'MessageBox 弹框'
-            }, {
-              value: 'notification',
-              label: 'Notification 通知'
-            }]
-          }, {
-            value: 'navigation',
-            label: 'Navigation',
-            children: [{
-              value: 'menu',
-              label: 'NavMenu 导航菜单'
-            }, {
-              value: 'tabs',
-              label: 'Tabs 标签页'
-            }, {
-              value: 'breadcrumb',
-              label: 'Breadcrumb 面包屑'
-            }, {
-              value: 'dropdown',
-              label: 'Dropdown 下拉菜单'
-            }, {
-              value: 'steps',
-              label: 'Steps 步骤条'
-            }]
-          }, {
-            value: 'others',
-            label: 'Others',
-            children: [{
-              value: 'dialog',
-              label: 'Dialog 对话框'
-            }, {
-              value: 'tooltip',
-              label: 'Tooltip 文字提示'
-            }, {
-              value: 'popover',
-              label: 'Popover 弹出框'
-            }, {
-              value: 'card',
-              label: 'Card 卡片'
-            }, {
-              value: 'carousel',
-              label: 'Carousel 走马灯'
-            }, {
-              value: 'collapse',
-              label: 'Collapse 折叠面板'
-            }]
-          }]
-        }, {
-          value: 'ziyuan',
-          label: '资源',
-          children: [{
-            value: 'axure',
-            label: 'Axure Components'
-          }, {
-            value: 'sketch',
-            label: 'Sketch Templates'
-          }, {
-            value: 'jiaohu',
-            label: '组件交互文档'
-          }]
-        }]
+				 options: [],
+                 optionsChild:[],
+      			 provinces:'',
+      			 city:''
 				
 			}
 		},
@@ -311,6 +137,15 @@
 					that.signUp = response.data.data;
 					that.address = response.data;
 					console.log(that.address)
+					let addressArray = new Array();
+					//遍历地区数组  = that.address.provinces
+					that.address.provinces.forEach(item => {
+						if(item.level == 1){
+							addressArray.push(item);
+						}
+					})
+					//将获取的省级目录放置 options 里
+					this.options = addressArray;
 //					console.log(that.signUp)
 					that.form.name = that.signUp.name;
 					that.form.birthday = that.signUp.birthday;
@@ -320,6 +155,9 @@
 					that.form.email = that.signUp.email;
 					that.form.sex = that.signUp.sex === '1' ? false : true
 					that.form.grade = that.signUp.group === '1' ? false : true
+					
+					
+					
 				})
 			},
 			//一键获取信息
@@ -350,14 +188,57 @@
 				})
 			},
 			checkSign(){
-				let name = this.form.name;
+
 				//验证字段不为空
+				let name = this.form.name;
 				if(name=='' || name.length==0){
 			     	this.$message.error('用户名不能为空');
 			        return false;
 			    }
 				//验证手机号
+				let phone = this.form.tel
+				if(!(/^1[34578]\d{9}$/.test(phone))){
+			       this.$message.error('手机号码格式不正确');
+			        return false;
+			   }
+				let card = this.form.idNumber
+				//验证身份证号
+				let result = checkIDnumber(card);
+				if(result !== true){
+					this.$message.error(result);
+					return false;
+				}
+				//验证学校单位
+				let school = this.form.schoolName;
+				if(school=='' || school.length==0){
+			     	this.$message.error('学校名称/工作单位不能为空');
+			        return false;
+			    }
+				//验证邮箱
+				let mailbox = this.form.email;
+				console.log(mailbox)
+				 if(!(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(mailbox))){
+			        this.$message.error("邮箱格式不正确，请确认");
+			        return false;
+			    }
+				console.log(this.provinces) // 获取的省份id = parent_id
+				console.log(this.city) // 获取的市级id
 			},
+			 changeProvinces(id){
+			 		// 获取的id 为省级 id
+			 	    let childAddressArray = new Array() ;
+			 	    let that = this	
+			 	    // 先将市级select重置为空
+			 	    that.city = '';
+					//遍历地区数组  = that.address.provinces			 	    		 	    
+        			that.address.provinces.forEach(item => {
+        				// parent_id 为第一个select 框的 id （省级id）
+						if(item.level == 2 && item.parent_id == id){
+							childAddressArray.push(item);
+						}
+					})
+        			this.optionsChild = childAddressArray;
+           },
 			getdata() {
 				let that = this
 				let userinfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -366,15 +247,55 @@
 			}
 		},
 	}
+	function checkIDnumber(code) {
+    var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
+    var tip = true;
+    var pass= true;
+
+    var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    if(!reg.test(code)){
+        tip = "身份证号格式错误";
+        pass = false;
+    }
+
+    else if(!city[code.substr(0,2)]){
+        tip = "开始两位的地址编码错误";
+        pass = false;
+    }
+    else{
+        //18位身份证需要验证最后一位校验位
+        if(code.length == 18){
+            code = code.split('');
+            //∑(ai×Wi)(mod 11)
+            //加权因子
+            var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+            //校验位
+            var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+            var sum = 0;
+            var ai = 0;
+            var wi = 0;
+            for (var i = 0; i < 17; i++)
+            {
+                ai = code[i];
+                wi = factor[i];
+                sum += ai * wi;
+            }
+            var last = parity[sum % 11];
+            if(parity[sum % 11] != code[17]){
+                tip = "身份证有误";
+                pass =false;
+            }
+        }
+    }
+    return tip;
+    //return pass;
+}
 </script>
 
 <style>
 	.el-input__inner{
 		border:none;
 		outline: none;
-	}
-	.el-input__suffix{
-		display: none;
 	}
 	.receive{
 		padding: 8px 15px;

@@ -7,7 +7,20 @@
 		</div>
 		<div class="answerBox">
 			<div class="answerBox-small">
-				
+				<div class="da">
+					<p><span>1</span><span>我是标题</span></p>
+					 <el-radio-group v-model="answer">
+					    <el-radio :label="1">A.备选项</el-radio>
+					    <br />
+					    <el-radio :label="2">B.备选项</el-radio>
+					    <br />
+					    <el-radio :label="3">C.备选项</el-radio>
+					    <br />
+					    <el-radio :label="4">D.备选项</el-radio>
+					  </el-radio-group>
+					  <p><a>上一题<span>1</span></a></p>
+					 <p><a>下一题<span>2/15</span></a></p>
+				</div>
 			</div>
 		</div>
 		<img src="./roucket.png" class="roucket"/>
@@ -23,8 +36,8 @@
 		data() {
 			return {
 				baseurl: Global.baseURL,
-				AnswerDetail: {
-				}
+				AnswerDetail: {},
+				 answer: 4
 			}
 		},
 		watch: {

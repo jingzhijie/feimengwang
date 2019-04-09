@@ -11,15 +11,15 @@
         		<ul class="recommendul">
         			<li>
         				<img src="./fmjs_icon1.png" />
-        				<router-link :to="{path:'/competitionDetail',query: {id: 8}}"><span>参赛要求</span></router-link>
+        				<router-link :to="{path:'/competitionDetail',query:{id:recommendId}}"><span>参赛要求</span></router-link>
         			</li>
         			<li>
         				<img src="./fmjs_icon2.png" />
-        				<router-link :to="{path:'/competitionDetail',query: {id: 8}}"><span>{{recommendStatus}}</span></router-link>
+        				<router-link :to="{path:'/signUp',query:{id:recommendId}}"><span>{{recommendStatus}}</span></router-link>
         			</li>
         			<li>
         				<img src="./fmjs_icon3.png" />
-        				<span>赛前模拟</span>
+        				<router-link :to="{path:'/answer',query:{id:recommendId}}"><span>赛前模拟</span></router-link>
         			</li>
         		</ul>
         	</div>
@@ -31,14 +31,12 @@
 	      		<div class="listDetail_right">
 	      			<p class="listDetail_right_title">{{item.competition_name}}</p>
 	      			<div class="listDetail_right_btn">
-	      				<span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />{{item.competitionState}}</span>
+	      				<router-link :to="{path:'/signUp',query:{id:item.id}}"><span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />{{item.competitionState}}</span></router-link>
 	      			</div>
 	      		</div>
 	      		<!--<a class="da"></a>-->
       	</li>
       </div>
-      
-      
     </div>
   </div>
  
@@ -62,7 +60,9 @@ export default {
 					]
 				},
 			},
-			recommendStatus:''
+			recommendStatus:'',
+			recommendId:''
+			
     }
   },
   created () {
@@ -70,14 +70,6 @@ export default {
     this.getCompetition()
   },
   methods: {
-//  	我要报名
-  	isignUp(){
-  		
-  	},
-//  	赛前模拟
-  	simulation(){
-  		
-  	},
     getCompetition() {
       let that = this
       let loading = Loading.service({
@@ -91,7 +83,7 @@ export default {
         }}).then((response) => {
          loading.close()
         that.competition = response.data;
-//      console.log(that.competition.data)
+//      console.log(that.competition.data.recommend.id)
         //判断列表页竞赛状态
 	      // 在这获取到数据后添加一个私有属性，
         that.competition.data.list.forEach(item => {
@@ -108,6 +100,8 @@ export default {
           	//其他情况
           }
         })
+        //获取推荐列表id
+        that.recommendId = that.competition.data.recommend.id
         //判断推荐列表竞赛状态
         let recommendStatus = that.competition.data.recommend.status;
         let recommendSign = that.competition.data.recommend.is_sign;

@@ -36,21 +36,23 @@
 		<div class="xian"><div class="neixian"></div></div>
 		<div class="region">
 			<p><b style="color: red;">*</b>所在地区
-				<el-select v-model="provinces" placeholder="请选择" @change="changeProvinces" style="width: 100px;margin-left: 10px;">
+				<el-select v-model="provinces" placeholder="请选择" @change="changeProvinces" style="width: 140px;margin-left: 10px;">
 			    <el-option
-			      v-for="item in options"
+			      v-for="(item,index) in options"
 			      :label="item.name"
-			      :value="item.id" >
+			      :value="item.id" 
+			      :key='index'>
 			    </el-option>
 			  </el-select>
-				<el-select v-model="city" placeholder="请选择" style="width: 100px;">
+				<el-select v-model="city" placeholder="请选择" style="width: 140px;">
 			    <el-option
-			      v-for="item in optionsChild"
+			      v-for="(item,index) in optionsChild"
 			      :label="item.name"
-			      :value="item.id">
+			      :value="item.id"
+			      :key='index'>
 			    </el-option>
 			  </el-select>
-			  <el-input v-model="form.address" placeholder="请输入" style="width: 100px;margin-left: 5px;"></el-input>
+			  <el-input v-model="form.address" placeholder="请输入" style="width: 250px;margin-left: 5px;"></el-input>
 			</p>
 		</div>
 		<div class="xian"><div class="neixian"></div></div>
@@ -71,7 +73,7 @@
 		<div class="xian"><div class="neixian"></div></div>
 		<div class="footbtn">
 			<a class="modify" @click="checkSign()">修改</a>
-			<a class="goback"  @click="$router.go(-1)">返回</a>
+			<a class="goback" @click="$router.go(-1)">返回</a>
 		</div>
 	</div>
 </template>
@@ -85,7 +87,7 @@
 			return {
 				form: {
 				  name:'',
-		          birthday: '',
+		          birthday:'',
 		          grade: '',
 		          sex:'',
 		          tel:'',
@@ -153,12 +155,20 @@
 					that.form.idNumber = that.signUp.identity;
 					that.form.schoolName = that.signUp.company;
 					that.form.email = that.signUp.email;
-					that.form.sex = that.signUp.sex === '1' ? false : true
-					that.form.grade = that.signUp.group === '1' ? false : true
-					
+					that.form.sex = that.signUp.sex === '1' ? false : true;
+					that.form.grade = that.signUp.group === '1' ? false : true;
+					that.provinces = that.signUp.province;
+					that.city = that.signUp.city;
+					that.form.address = that.signUp.address;
+					//进页面就调用方法 然后在下面赋值city
+					this.changeProvinces(that.signUp.province,that.signUp.city)
+//					this.changeProvinces(that.information.provinces,that.information.city)
 					
 					
 				})
+				.catch(function (error) {
+		          console.log(error)
+		        })
 			},
 			//一键获取信息
 			getInformation(){
@@ -170,29 +180,43 @@
 				})
 				axios.get(Global.baseURL + '/Mobile/Competition/obtainData.html', {
 					params: {
-						cid: that.myData.id,
+						cid: this.$route.query.id,
 						uid: that.myData.uid
 					}
 				}).then((response) => {
 					loading.close()
 					that.information = response.data.data;
-//					console.log(that.information)
-					that.form.name = that.information.username;
+					console.log(that.information)
+					that.form.name = that.information.name;
 					that.form.birthday = that.information.birthday;
 					that.form.tel = that.information.phone;
 					that.form.idNumber = that.information.identity;
 					that.form.schoolName = that.information.school_name;
 					that.form.email = that.information.email;
-					that.form.sex = that.information.sex === '1' ? false : true
-					that.form.grade = that.information.group === '1' ? false : true
+					that.form.sex = that.information.sex === '1' ? false : true;
+					that.form.grade = that.information.group === '1' ? false : true;
+					that.provinces = that.information.provinces;
+					that.form.address = that.information.address;
+					that.city = that.information.city;
+					this.changeProvinces(that.information.provinces,that.information.city)
 				})
+				.catch(function (error) {
+		          console.log(error)
+		        })
 			},
+			//提交接口
 			checkSign(){
-
 				//验证字段不为空
 				let name = this.form.name;
 				if(name=='' || name.length==0){
 			     	this.$message.error('用户名不能为空');
+			        return false;
+			    }
+				//验证生日不为空
+				let birthday = this.form.birthday;
+				console.log(birthday)
+				if(birthday==null){
+			     	this.$message.error('出生日期不能为空');
 			        return false;
 			    }
 				//验证手机号
@@ -216,15 +240,45 @@
 			    }
 				//验证邮箱
 				let mailbox = this.form.email;
-				console.log(mailbox)
 				 if(!(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(mailbox))){
 			        this.$message.error("邮箱格式不正确，请确认");
 			        return false;
 			    }
-				console.log(this.provinces) // 获取的省份id = parent_id
-				console.log(this.city) // 获取的市级id
+//				console.log(this.provinces) // 获取的省份id = parent_id
+//				console.log(this.city) // 获取的市级id
+				let that = this
+				let loading = Loading.service({
+					lock: true,
+					text: '拼命加载中',
+					background: 'rgba(0, 0, 0, 0.8)'
+				})
+				axios.get(Global.baseURL + '/Mobile/Competition/addSign.html', {
+					params: {
+						cid: this.$route.query.id,
+						uid: that.myData.uid,
+						group:that.form.grade,
+						name:that.form.name,
+						birthday:that.form.birthday,
+						sex:that.form.sex,
+						province:this.provinces,
+						city:this.city,
+						address:that.form.address,
+						phone:that.form.tel,
+						identity:that.form.idNumber,
+						company:that.form.schoolName,
+						email:that.form.email,
+						id:that.signUp.id
+					}
+				}).then((response) => {
+					loading.close()
+					that.information = response.data.data;
+					console.log(that.information)
+				})
+				.catch(function (error) {
+		          console.log(error)
+		        })
 			},
-			 changeProvinces(id){
+			 changeProvinces(id,city){
 			 		// 获取的id 为省级 id
 			 	    let childAddressArray = new Array() ;
 			 	    let that = this	
@@ -238,6 +292,8 @@
 						}
 					})
         			this.optionsChild = childAddressArray;
+        			that.city = city;
+//      			console.log(that.city)
            },
 			getdata() {
 				let that = this
@@ -288,7 +344,6 @@
         }
     }
     return tip;
-    //return pass;
 }
 </script>
 

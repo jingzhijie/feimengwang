@@ -5,7 +5,7 @@
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
-        <m-footer></m-footer>
+        <m-footer  v-if="$route.meta.footShow"></m-footer>
       </div>
     </div>
   </div>

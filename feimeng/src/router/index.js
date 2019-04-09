@@ -8,6 +8,7 @@ import My from '@/components/my/my'
 import Competition from '@/components/competition/competition'
 import CompetitionDetail from '@/components/competition/competitionDetail'
 import SignUp from '@/components/csignup/signup'
+import Answer from '@/components/answer/answer'
 Vue.use(Router)
 
 const router = new Router({
@@ -19,19 +20,27 @@ const router = new Router({
     {
       path: '/index',
       component: Index,
-      meta: {auth: true, keepAlive: true}
+      meta: {auth: true, keepAlive: true,footShow:true}
     },
     {
       path: '/course',
-      component: Course
+      component: Course,
+      meta: {auth: true, keepAlive: true,footShow:true}
+      
     },
     {
       path: '/competition',
-      component: Competition
+      component: Competition,
+      meta: {auth: true, keepAlive: true,footShow:true}
+      
     },
     {
 		    path:'/signup',
 		    component:SignUp
+		},
+    {
+		    path:'/answer',
+		    component:Answer
 		},
     {
 		    path:'/competitionDetail',
@@ -40,15 +49,21 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {auth: true, keepAlive: true,footShow:true}
+      
     },
     {
       path: '/my',
-      component: My
+      component: My,
+      meta: {auth: true, keepAlive: true,footShow:true}
+      
     },
     {
       path: '/discovery',
-      component: Discovery
+      component: Discovery,
+      meta: {auth: true, keepAlive: true,footShow:true}
+      
     }
   ]
 })

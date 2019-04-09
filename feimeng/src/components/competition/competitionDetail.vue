@@ -3,7 +3,7 @@
 		<div class="title"><img class="back" @click="$router.go(-1)" src="./back.png" alt=""></div>
 		<div class="detailTitle">{{competitionDetail.competition_name}}</div>
 		<div class="selectBtn">
-			<a class="analog"><img src="./moni.png" class="signimg" />赛前模拟</a>
+		<router-link :to="{path:'/answer',query: {id: this.$route.query.id}}"><a class="analog"><img src="./moni.png" class="signimg" />赛前模拟</a></router-link>
 			<router-link :to="{path:'/signup',query: {id: this.$route.query.id}}"><a class="signUp"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a></router-link>
 		</div>
 		<div class="content1" v-html="competitionDetail.content">
@@ -79,6 +79,9 @@
 					}
 
 				})
+				.catch(function (error) {
+		          console.log(error)
+		        })
 			},
 			getdata() {
 				let that = this

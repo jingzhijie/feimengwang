@@ -9,6 +9,7 @@ import Competition from '@/components/competition/competition'
 import CompetitionDetail from '@/components/competition/competitionDetail'
 import SignUp from '@/components/csignup/signup'
 import Answer from '@/components/answer/answer'
+import Asubject from '@/components/asubject/asubject'
 Vue.use(Router)
 
 const router = new Router({
@@ -41,6 +42,10 @@ const router = new Router({
     {
 		    path:'/answer',
 		    component:Answer
+		},
+    {
+		    path:'/asubject',
+		    component:Asubject
 		},
     {
 		    path:'/competitionDetail',

@@ -8,7 +8,7 @@
 			(<b style="color: red;margin: 0 3px;">*</b>为必填项)
 			<span class="receive" v-on:click="getInformation()">一键获取</span>
 		</div>
-		<div class="tiao"></div>
+		<div class="tiao1"></div>
 		<div class="competitionGroup">
 			<p><b style="color: red;margin: 0 2px;">*</b>参赛组别</p>
 			<el-radio-group v-model="form.grade"> 
@@ -119,6 +119,7 @@
 		created() {
 			this.getdata()
 			this.getsignUp(this.$route.query.id)
+			this.scroll()
 		},
 		methods: {
 			getsignUp(){
@@ -252,7 +253,7 @@
 					text: '拼命加载中',
 					background: 'rgba(0, 0, 0, 0.8)'
 				})
-				axios. (Global.baseURL + '/Mobile/Competition/addSign.html', {
+				axios.get(Global.baseURL + '/Mobile/Competition/addSign.html', {
 					params: {
 						cid: this.$route.query.id,
 						uid: that.myData.uid,
@@ -295,6 +296,11 @@
         			that.city = city;
 //      			console.log(that.city)
            },
+           	scroll(){
+				if($(".tiao1").scrollTop() >= 100){
+					alert(1)
+				}
+			},
 			getdata() {
 				let that = this
 				let userinfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -345,6 +351,7 @@
     }
     return tip;
 }
+			
 </script>
 
 <style>
@@ -498,6 +505,12 @@
 		margin-right: 10px;
 	}
 	.tiao{
+		width: 100%;
+		height: 8px;
+		background: #f8f6f9;
+		margin: 10px 0;
+	}
+	.tiao1{
 		width: 100%;
 		height: 8px;
 		background: #f8f6f9;

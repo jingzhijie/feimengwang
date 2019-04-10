@@ -74,6 +74,7 @@
 					that.answerDetail = response.data;
 					console.log(that.answerDetail)
 					
+					
 
 				})
 			},

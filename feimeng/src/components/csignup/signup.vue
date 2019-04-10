@@ -252,7 +252,7 @@
 					text: '拼命加载中',
 					background: 'rgba(0, 0, 0, 0.8)'
 				})
-				axios.get(Global.baseURL + '/Mobile/Competition/addSign.html', {
+				axios. (Global.baseURL + '/Mobile/Competition/addSign.html', {
 					params: {
 						cid: this.$route.query.id,
 						uid: that.myData.uid,

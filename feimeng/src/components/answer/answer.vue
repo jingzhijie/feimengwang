@@ -65,18 +65,23 @@
 		},
 		methods: {
 			rendering(num,obj){
-				this.titleNumber = num;
-				this.problem =obj.problem;
-				this.options = new Array();
-				console.log(obj.answer[0])
-				//let arrays = obj.answer.split(","); 
-				console.log(arrays)
-				obj.answer.forEach(item => {
-					console.log(item)
-//					this.options[index]['value'] = index+1;
-//					this.options[index]['content'] = item;
-		   		})
-				
+				let that = this;
+				that.titleNumber = num;
+				that.problem =obj.problem;
+				that.options = new Array();
+
+				let answer = obj.answer;
+				console.log(answer)
+  				for(var i in answer){
+                	console.log(i,answer[i]);
+             	}
+  				//let arrays = obj.answer.split(",");
+//				console.log(arrays)
+//				that.answer.forEach(item => {
+//					console.log(item)
+////					this.options[index]['value'] = index+1;
+////					this.options[index]['content'] = item;
+//		   		})
 			},
 			getAnswerDetail(id) {
 				let that = this
@@ -99,7 +104,7 @@
 //					that.answerDetail.forEach(item => {
 //						problemArray.push(item);
 //					})
-					this.rendering(1,that.answerDetail[0]);
+					that.rendering(1,that.answerDetail[0]);
 				})
 			},
 			
@@ -107,7 +112,6 @@
 				let that = this
 				let userinfo = JSON.parse(localStorage.getItem('userInfo'))
 				that.myData = userinfo.data
-
 			}
 		},
 		components: {

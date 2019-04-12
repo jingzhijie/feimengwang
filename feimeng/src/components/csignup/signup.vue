@@ -119,8 +119,8 @@
 		created() {
 			this.getdata()
 			this.getsignUp(this.$route.query.id)
-			this.scroll()
 		},
+		
 		methods: {
 			getsignUp(){
 				let that = this
@@ -296,11 +296,6 @@
         			that.city = city;
 //      			console.log(that.city)
            },
-           	scroll(){
-				if($(".tiao1").scrollTop() >= 100){
-					alert(1)
-				}
-			},
 			getdata() {
 				let that = this
 				let userinfo = JSON.parse(localStorage.getItem('userInfo'))

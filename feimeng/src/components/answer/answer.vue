@@ -13,16 +13,13 @@
 						<div class="subright"><span>{{problem}}</span></div>
 					</div>
 					<div class="subradio">
-						<el-radio-group v-model="choose">
-					    	<p><el-radio v-for="(item,index) in options" :label="item.value">{{item.content}}</el-radio></p>
-					    	<!--<p><el-radio :label="2">B.5425颗</el-radio></p>
-					    	<p><el-radio :label="3">C.4225颗</el-radio></p>
-					    	<p><el-radio :label="4">D.2245颗</el-radio></p>-->
+						<el-radio-group v-model="choose" @change="getRadio">
+					    	<p><el-radio v-for="(item,index) in options" :label="item.value" :key = 'index'>{{item.content}}</el-radio></p>
 					    </el-radio-group>
 					</div>
 					<div class="checkSubject">
-						<a class="prevSub">上一题(<span>22</span>)</a>
-						<a class="nextSub">下一题(<span>22</span>/<span>{{allNum}}</span>)</a>
+						<a class="prevSub" @click="prevSub">上一题(<span>{{prevNum}}</span>)</a>
+						<a class="nextSub" @click="nextSub">下一题(<span>{{nextNum}}</span>/<span>{{allNum}}</span>)</a>
 					</div>
 				</div>
 			</div>
@@ -41,11 +38,14 @@
 			return {
 				baseurl: Global.baseURL,
 				AnswerDetail: {},
-				choose: 4,
+				choose: null,
 				allNum:'',
 				titleNumber:'',
+				prevNum:'',
+				nextNum:'',
 				problem:'',
-				options:[]
+				options:[],
+				answerArray:[]
 			}
 		},
 		watch: {
@@ -67,21 +67,47 @@
 			rendering(num,obj){
 				let that = this;
 				that.titleNumber = num;
+				that.prevNum = num-1;
+				that.nextNum = num+1;
 				that.problem =obj.problem;
 				that.options = new Array();
-
 				let answer = obj.answer;
-				console.log(answer)
+				this.answerArray[this.problem - 1] = this.choose === "1" ?  "A" : this.choose === "2" ?  "B" : this.choose === "3" ?  "C" : "D"
+//				that.choose = null;
+				//第一题没有上一题
+				if(num == 1){
+					$(".prevSub").hide();
+				}else{
+					$(".prevSub").show();
+				}
+				//最后一题不让在点
+//				console.log(that.allNum)
+				if(that.nextNum == that.allNum){
+					return false
+				}
+				let l = 1;
   				for(var i in answer){
-                	console.log(i,answer[i]);
+                	that.options.push({'value':l++,'content':i+'. '+answer[i]});               	
              	}
-  				//let arrays = obj.answer.split(",");
-//				console.log(arrays)
-//				that.answer.forEach(item => {
-//					console.log(item)
-////					this.options[index]['value'] = index+1;
-////					this.options[index]['content'] = item;
-//		   		})
+//				console.log(this.options)
+			},
+			//上一题
+			prevSub(){
+				let that = this;
+				that.rendering(that.prevNum,that.answerDetail[that.prevNum-1]);
+			},
+			//下一题
+			nextSub(){
+				let that = this;
+				
+				that.rendering(that.nextNum,that.answerDetail[that.nextNum-1]);
+			},
+			//获取那个radio
+			getRadio(){
+				console.log(this.choose)
+				//获取当前选择的radio
+				let answerNum = this.choose;
+//				answerArray.push(answerNum);
 			},
 			getAnswerDetail(id) {
 				let that = this
@@ -153,6 +179,7 @@
 	.subradio{
 		width: 100%;
 		height: 200px;
+		margin-top: 20px;
 	}
 	.subradio p{
 		width: 100%;
@@ -171,7 +198,7 @@
 		align-items: center;
 	}
 	.subright{
-		height: 80px;
+		height: 100px;
 		margin-left: 20px;
 		line-height: 25px;
 	}

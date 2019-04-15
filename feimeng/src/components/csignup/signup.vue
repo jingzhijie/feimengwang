@@ -8,7 +8,7 @@
 			(<b style="color: red;margin: 0 3px;">*</b>为必填项)
 			<span class="receive" v-on:click="getInformation()">一键获取</span>
 		</div>
-		<div class="tiao1"></div>
+		<!--<div class="tiao1"></div>-->
 		<div class="competitionGroup">
 			<p><b style="color: red;margin: 0 2px;">*</b>参赛组别</p>
 			<el-radio-group v-model="form.grade"> 
@@ -502,7 +502,7 @@
 	.tiao{
 		width: 100%;
 		height: 8px;
-		background: #f8f6f9;
+		background: #fff;
 		margin: 10px 0;
 	}
 	.tiao1{

@@ -34,7 +34,6 @@
 	      				<router-link :to="{path:'/signUp',query:{id:item.id}}"><span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />{{item.competitionState}}</span></router-link>
 	      			</div>
 	      		</div>
-	      		<!--<a class="da"></a>-->
       	</li>
       </div>
     </div>

@@ -61,7 +61,7 @@
 				nextNum:'',
 				problem:'',
 				options:[],
-				answerArray:[]
+				answerArray:new Array()
 			}
 		},
 		watch: {
@@ -80,17 +80,38 @@
 			this.getAnswerDetail(this.$route.query.id)
 		},
 		methods: {
-			rendering(num,obj){
+			rendering(num,obj,chooseSelect = '',type){
 				let that = this;
 				that.titleNumber = num;
 				that.prevNum = num-1;
 				that.nextNum = num+1;
 				that.problem =obj.problem;
 				that.options = new Array();
+				
 				let answer = obj.answer;
-				this.answerArray[this.problem - 1] = this.choose === "1" ?  "A" : this.choose === "2" ?  "B" : this.choose === "3" ?  "C" : "D"
-//				that.choose = null;
+				if(chooseSelect && num-1 >= 0){
+				 //that.answerArray[num-1] = chooseSelect === "1" ?  "A" : chooseSelect === "2" ?  "B" : chooseSelect === "3" ?  "C" : "D";					
+					switch(chooseSelect){
+						case 1:
+						  that.answerArray[num-1] = [num-1,'A'];
+						break;
+						case 2:
+						  that.answerArray[num-1] = [num-1,'B'];
+						break;
+						case 3:
+						  that.answerArray[num-1] = [num-1,'C'];
+						break;
+						case 4:
+						  that.answerArray[num-1] = [num-1,'D'];
+						break;
+					}
+				}
+				console.log(that.answerArray)
+				//console.log(typeof(that.answerArray))
+				
+				that.choose = null;
 				//第一题没有上一题
+				
 				if(num == 1){
 					$(".prevSub").hide();
 				}else{
@@ -107,14 +128,33 @@
 				}
 				let l = 1;
   				for(var i in answer){
+  					if(that.answerArray[num]){
+	  					switch(that.answerArray[num][1]){
+	  						case 'A':
+	  						  that.choose = 1;
+	  						break;
+	   						case 'B':
+	  						  that.choose = 2;
+	  						break;
+	   						case 'C':
+	  						  that.choose = 3;
+	  						break;
+	   						case 'D':
+	  						  that.choose = 4;
+	  						break;
+	  					}
+  					}else{
+  						that.choose = null;
+  					}
                 	that.options.push({'value':l++,'content':i+'. '+answer[i]});               	
              	}
-//				console.log(this.options)
+				
 			},
 			//上一题
 			prevSub(){
 				let that = this;
-				that.rendering(that.prevNum,that.answerDetail[that.prevNum-1]);
+				that.choose = null;
+				that.rendering(that.prevNum,that.answerDetail[that.prevNum-1],that.choose,1);
 			},
 			//下一题
 			nextSub(){
@@ -123,7 +163,7 @@
 			        return false;
 				}
 				let that = this;
-				that.rendering(that.nextNum,that.answerDetail[that.nextNum-1]);
+				that.rendering(that.nextNum,that.answerDetail[that.nextNum-1],that.choose,2);
 			},
 			//获取那个radio
 			getRadio(){
@@ -163,20 +203,45 @@
 			},
 			//提交答案
 			subAnswer(){
-				$(".alertWindow").hide();
 				let that = this;
+				if(that.choose == null){
+					that.$message.error('请选择您的答案');
+			        return false;
+				}
+					switch(that.choose){
+						case 1:
+						  that.answerArray[that.allNum] = [that.allNum,'A'];
+						break;
+						case 2:
+						  that.answerArray[that.allNum] = [that.allNum,'B'];
+						break;
+						case 3:
+						  that.answerArray[that.allNum] = [that.allNum,'C'];
+						break;
+						case 4:
+						  that.answerArray[that.allNum] = [that.allNum,'D'];
+						break;
+					}				
+				$(".alertWindow").hide();				
 				let loading = Loading.service({
 					lock: true,
 					text: '拼命加载中',
 					background: 'rgba(0, 0, 0, 0.8)'
 				})
+				let newArray = new Array();
+				for(let i = 0;i<that.answerArray.length-1;i++){
+					newArray[i] = that.answerArray[i+1];
+				}
+				let newString = JSON.stringify(newArray); 
+				console.log(newString) 
+				//return false;
 				axios.get(Global.baseURL + '/Mobile/Competition/submitSubject.html', {
 					params: {
 						cid: this.$route.query.id,
-						uid: that.myData.uid
-//						answer:that.options
+						uid: that.myData.uid,
+						answer:newString
 					}
-				}).then((response) => {
+				}).then((response) => { 
 					loading.close()
 				})
 				.catch(function (error) {

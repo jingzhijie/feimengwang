@@ -87,28 +87,25 @@
 				that.nextNum = num+1;
 				that.problem =obj.problem;
 				that.options = new Array();
-				
 				let answer = obj.answer;
 				if(chooseSelect && num-1 >= 0){
 				 //that.answerArray[num-1] = chooseSelect === "1" ?  "A" : chooseSelect === "2" ?  "B" : chooseSelect === "3" ?  "C" : "D";					
 					switch(chooseSelect){
 						case 1:
-						  that.answerArray[num-1] = [num-1,'A'];
+						  that.answerArray[num-1] = 'A';
 						break;
 						case 2:
-						  that.answerArray[num-1] = [num-1,'B'];
+						  that.answerArray[num-1] = 'B';
 						break;
 						case 3:
-						  that.answerArray[num-1] = [num-1,'C'];
+						  that.answerArray[num-1] = 'C';
 						break;
 						case 4:
-						  that.answerArray[num-1] = [num-1,'D'];
+						  that.answerArray[num-1] = 'D';
 						break;
 					}
 				}
-				console.log(that.answerArray)
-				//console.log(typeof(that.answerArray))
-				
+//				console.log(that.answerArray)
 				that.choose = null;
 				//第一题没有上一题
 				
@@ -129,7 +126,7 @@
 				let l = 1;
   				for(var i in answer){
   					if(that.answerArray[num]){
-	  					switch(that.answerArray[num][1]){
+	  					switch(that.answerArray[num]){
 	  						case 'A':
 	  						  that.choose = 1;
 	  						break;
@@ -167,7 +164,7 @@
 			},
 			//获取那个radio
 			getRadio(){
-				console.log(this.choose)
+//				console.log(this.choose)
 				//获取当前选择的radio
 				let answerNum = this.choose;
 //				answerArray.push(answerNum);
@@ -195,9 +192,15 @@
 					}
 				}).then((response) => {
 					loading.close()
+					if(response.data.status == -1){
+						this.$router.push({path:'/competitionDetail',query: {id: this.$route.query.id}})
+						 this.$message.error(response.data.info);
+						 return;
+					}
+					console.log(response.data.status)
 					that.answerDetail = response.data.data;
 					that.allNum = that.answerDetail.num;
-					console.log(that.answerDetail)
+
 					that.rendering(1,that.answerDetail[0]);
 				})
 			},
@@ -210,16 +213,16 @@
 				}
 					switch(that.choose){
 						case 1:
-						  that.answerArray[that.allNum] = [that.allNum,'A'];
+						  that.answerArray[that.allNum] = 'A';
 						break;
 						case 2:
-						  that.answerArray[that.allNum] = [that.allNum,'B'];
+						  that.answerArray[that.allNum] = 'B';
 						break;
 						case 3:
-						  that.answerArray[that.allNum] = [that.allNum,'C'];
+						  that.answerArray[that.allNum] = 'C';
 						break;
 						case 4:
-						  that.answerArray[that.allNum] = [that.allNum,'D'];
+						  that.answerArray[that.allNum] = 'D';
 						break;
 					}				
 				$(".alertWindow").hide();				
@@ -232,17 +235,32 @@
 				for(let i = 0;i<that.answerArray.length-1;i++){
 					newArray[i] = that.answerArray[i+1];
 				}
-				let newString = JSON.stringify(newArray); 
-				console.log(newString) 
+//				console.log(newArray)
+//				let newString = JSON.stringify(newArray); 
+//				console.log(newString) 
 				//return false;
 				axios.get(Global.baseURL + '/Mobile/Competition/submitSubject.html', {
 					params: {
 						cid: this.$route.query.id,
 						uid: that.myData.uid,
-						answer:newString
+						answer:newArray
 					}
 				}).then((response) => { 
 					loading.close()
+//					console.log(response.data.status)
+					let answerStatus = response.data.status;
+					let answerInfo = response.data.info;
+					if(answerStatus == 1){
+						this.$router.push({path:'/asubject',query: {id: this.$route.query.id}})
+						 this.$message({message:"提交成功",type: 'success'});
+						 return;
+					}
+					if(answerStatus == -1){
+//						this.$router.push({path:'/asubject',query: {id: this.$route.query.id}})
+						this.$message.error('提交失败');
+						 return;
+						
+					}
 				})
 				.catch(function (error) {
 		          console.log(error)

@@ -1,10 +1,11 @@
 <template>
 	<div class="container">
-		<div class="title"><img class="back" @click="$router.go(-1)" src="./back.png" alt=""></div>
+		<div class="title"><img class="back" @click="backList" src="./back.png" alt=""></div>
 		<div class="detailTitle">{{competitionDetail.competition_name}}</div>
 		<div class="selectBtn">
-		<router-link :to="{path:'/answer',query: {id: this.$route.query.id}}"><a class="analog"><img src="./moni.png" class="signimg" />赛前模拟</a></router-link>
-			<router-link :to="{path:'/signup',query: {id: this.$route.query.id}}"><a class="signUp"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a></router-link>
+		<a class="analog" @click="beforeSimulation"><img src="./moni.png" class="signimg" />赛前模拟</a>
+		<router-link :to="{path:'/seeresult',query: {id: this.$route.query.id}}"><a class="seeResult"><img src="./moni.png" class="signimg" />查看结果</a></router-link>
+		<router-link :to="{path:'/signup',query: {id: this.$route.query.id}}"><a class="signUp"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a></router-link>
 		</div>
 		<div class="content1" v-html="competitionDetail.content">
 
@@ -63,21 +64,51 @@
 					//判断竞赛状态
 					let raceStatus = that.competitionDetail.status;
 					let raceSign = that.competitionDetail.is_sign;
+					let answerStatus = that.competitionDetail.AnswerStatus;
 					//      console.log(recommendStatus)
 					//      console.log(recommendSign)
-					if(raceStatus == 2) {
-						// 根据状态显示不同的内容
-						this.competitionStatus = '查看结果'
-					} else if(raceStatus == 1) {
-						if(raceSign == 1) {
+					if(raceStatus == 1) {
+						if(raceSign == 1){
 							this.competitionStatus = '我已报名'
-						} else {
+						}else{
 							this.competitionStatus = '我要报名'
 						}
-					} else {
-						//其他情况
+						$(".seeResult").hide()
+						$(".analog").show();
+						$(".signUp").show();
+					}else {
+						$(".analog").hide();
+						$(".signUp").hide();
+						$(".seeResult").show()
 					}
+					
+				})
+				.catch(function (error) {
+		          console.log(error)
+		        })
+			},
+			backList(){
+				this.$router.push({path:'/competition'})
+			},
+			beforeSimulation(id){
+				let that = this;
+				axios.get(Global.baseURL + '/Mobile/Competition/checkSign.html', {
+					params: {
+						cid: this.$route.query.id,
+						uid: that.myData.uid
+					}
+				}).then((response) => {
+					//赛前模拟
+					that.beforeImitate = response.data;
 
+					console.log(that.beforeImitate.status)
+					let contestStatus = that.beforeImitate.status;
+					if(contestStatus == 1){
+						this.$router.push({path:'/answer',query: {id: this.$route.query.id}})
+					}else{
+						this.$message.error(response.data.info);
+					}
+					
 				})
 				.catch(function (error) {
 		          console.log(error)
@@ -114,7 +145,17 @@
 		font-size: 14px;
 		float: right;
 	}
-	
+	.seeResult{
+		padding: 7px 10px;
+		background: white;
+		border-radius: 20px;
+		line-height: 10px;
+		margin-top: 10px;
+		color: #5ca7ef;
+		font-size: 14px;
+		float: right;
+		display: none;
+	}
 	.signUp {
 		padding: 7px 10px;
 		background: white;

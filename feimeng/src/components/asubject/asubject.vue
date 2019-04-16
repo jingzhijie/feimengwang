@@ -1,15 +1,21 @@
 <template>
 	<div class="subjectBoxer">
-		<div class="title2"><img class="back" @click="$router.go(-1)" src="./back.png" alt=""></div>
+		<div class="title2"><img class="back" @click="backDetail" src="./back.png" alt=""></div>
 		<div class="answerTitle">
-			<p>本次答题您共答对5道题</p>
-			<p>得分33.33分</p>
+			<p>本次答题您共答对{{count}}道题</p>
+			<p>得分{{score}}分</p>
 		</div>
 		<div class="answerBox1">
 			<div class="answerBox-small1">
 				<div class="subjectContainer">
-					<div class="subjectContainer-title">
-						<div class="subright1"><span>1.&nbsp;&nbsp;</span><span>2月22日，SpaceX“猎鹰9号”5年的 时间将多少颗卫星送入近地轨道？</span></div>
+					<div class="subjectContainer-title" v-for="(item,index) in answerComparison.lists" :key = 'index' >
+						<div class="subright1"><span>{{index+1}}.&nbsp;&nbsp;</span><span>{{item.title}}</span> 
+							<!--判断是否显示 √ ×-->
+							<span class="answerTrue" v-if="item.is_correct==1">[√]</span><span class="answerFalse" v-else>[×]</span>
+							<div class="rightKey">{{item.correct_str}}</div>
+							<div class="youChoose">{{item.error_str}}</div>
+						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -27,6 +33,10 @@
 		data() {
 			return {
 				baseurl: Global.baseURL,
+				count:'',
+				score:'',
+				lists:[]
+				
 			}
 		},
 		watch: {
@@ -35,37 +45,39 @@
 				//    console.log(this.$route.query.id,'-------------id')
 				if(this.$route.query.id) {
 					//路由变化获取接口id
-					this.getAnswerDetail(this.$route.query.id)
+					this.answerComparison(this.$route.query.id)
 				}
 			}
 		},
 		//页面创建之后执行
 		created() {
 			this.getdata()
-//			this.getAnswerDetail(this.$route.query.id)
+			this.answerComparison(this.$route.query.id)
 
 		},
 		methods: {
-			getAnswerDetail(id) {
+			answerComparison(id) {
 				let that = this
 				let loading = Loading.service({
 					lock: true,
 					text: '拼命加载中',
 					background: 'rgba(0, 0, 0, 0.8)'
 				})
-//				axios.get(Global.baseURL + '/Mobile/Competition/subject.html', {
-//					params: {
-//						id: id,
-//						uid: that.myData.uid
-//					}
-//				}).then((response) => {
-//					loading.close()
-//					that.answerDetail = response.data.data;
-//					that.allNum = that.answerDetail.num;
-//					console.log(that.answerDetail[0].problem)
-//					
-//
-//				})
+				axios.get(Global.baseURL + '/Mobile/Competition/competitionreturn.html', {
+					params: {
+						cid: id,
+						uid: that.myData.uid
+					}
+				}).then((response) => {
+					loading.close()
+					that.answerComparison = response.data.data;
+					console.log(that.answerComparison)
+					that.count = that.answerComparison.success_count;
+					that.score = that.answerComparison.fraction;
+				})
+			},
+			backDetail(){
+				this.$router.push({path:'/competitionDetail',query: {id: this.$route.query.id}})
 			},
 			getdata() {
 				let that = this
@@ -86,14 +98,24 @@
 		background:url(./answerbg.png) no-repeat;
 		background-size: 100% 100%;
 	}
+	.rightKey{
+		color: #00854b;
+	}
+	.answerTrue{
+		color: #00854b;
+	}
+	.youChoose{
+		color: #fa4a2e;
+	}
+	.answerFalse{
+		color: #fa4a2e;
+	}
 	.subjectContainer-title{
 		width: 100%;
-		height: 80px;
 		margin-top: 10px;
 		display: flex;
 	}
 	.subright1{
-		height: 80px;
 		line-height: 25px;
 	}
 	.subright1 span{
@@ -118,6 +140,7 @@
 		background: white;		
 		border-radius: 40px;
 		padding: 20px;
+		overflow-y: scroll;
 	}
 	.back {
 		width: 10px;

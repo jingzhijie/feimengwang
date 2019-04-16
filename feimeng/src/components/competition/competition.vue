@@ -13,13 +13,17 @@
         				<img src="./fmjs_icon1.png" />
         				<router-link :to="{path:'/competitionDetail',query:{id:recommendId}}"><span>参赛要求</span></router-link>
         			</li>
-        			<li>
+        			<li class="signup">
         				<img src="./fmjs_icon2.png" />
         				<router-link :to="{path:'/signUp',query:{id:recommendId}}"><span>{{recommendStatus}}</span></router-link>
         			</li>
-        			<li>
+        			<li class="mock">
         				<img src="./fmjs_icon3.png" />
-        				<router-link :to="{path:'/answer',query:{id:recommendId}}"><span>赛前模拟</span></router-link>
+        				<a class="beforeMock" :to="{path:'/answer',query:{id:recommendId}}"><span>赛前模拟</span></a>
+        			</li>
+        			<li class="result" style="display: none;">
+        				<img src="./fmjs_icon3.png" />
+        				<a class="viewResults" :to="{path:'/seeresult',query:{id:recommendId}}"><span>查看结果</span></a>
         			</li>
         		</ul>
         	</div>
@@ -31,7 +35,9 @@
 	      		<div class="listDetail_right">
 	      			<p class="listDetail_right_title">{{item.competition_name}}</p>
 	      			<div class="listDetail_right_btn">
-	      				<router-link :to="{path:'/signUp',query:{id:item.id}}"><span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />{{item.competitionState}}</span></router-link>
+	      				<router-link :to="{path:'/seeresult',query:{id:item.id}}" v-if="item.status == 2"><span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />查看结果</span></router-link>
+	      				<router-link :to="{path:'/signUp',query:{id:item.id}}" v-else-if="(item.status ==1)&&(item.is_sign == 1)"><span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />我已报名</span></router-link>
+	      				<router-link :to="{path:'/signUp',query:{id:item.id}}" v-else><span class="signUp"><img style="width: 15px;height: 15px;margin-right: 5px;" src="./sign.png" />我要报名</span></router-link>
 	      			</div>
 	      		</div>
       	</li>
@@ -82,7 +88,7 @@ export default {
         }}).then((response) => {
          loading.close()
         that.competition = response.data;
-//      console.log(that.competition.data.recommend.id)
+        console.log(that.competition.data.recommend)
         //判断列表页竞赛状态
 	      // 在这获取到数据后添加一个私有属性，
         that.competition.data.list.forEach(item => {
@@ -98,6 +104,7 @@ export default {
           } else {
           	//其他情况
           }
+          
         })
         //获取推荐列表id
         that.recommendId = that.competition.data.recommend.id
@@ -106,17 +113,19 @@ export default {
         let recommendSign = that.competition.data.recommend.is_sign;
 //      console.log(recommendStatus)
 //      console.log(recommendSign)
-          if(recommendStatus == 2){
-            // 根据状态显示不同的内容
-            this.recommendStatus = '查看结果'
-          }else if(recommendStatus == 1){
-	          	if(recommendSign == 1){
-	            this.recommendStatus = '我已报名'
-	          }else{
+           if(recommendStatus == 1){
+          	if(recommendSign == 1){
+          		 this.recommendStatus = '我已报名'
+          	}else{
 	          	this.recommendStatus = '我要报名'
-	          }
-          } else {
-          	//其他情况
+          	}
+          	$(".result").hide();
+          	$(".mock").show();
+          	$(".signup").show();
+          }else{
+          	$(".result").show();
+          	$(".mock").hide();
+          	$(".signup").hide();
           }
        })
        .catch(function (error) {

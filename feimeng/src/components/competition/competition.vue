@@ -19,11 +19,11 @@
         			</li>
         			<li class="mock">
         				<img src="./fmjs_icon3.png" />
-        				<a class="beforeMock" :to="{path:'/answer',query:{id:recommendId}}"><span>赛前模拟</span></a>
+        				<router-link class="beforeMock" :to="{path:'/answer',query:{id:recommendId}}"><span>赛前模拟</span></router-link>
         			</li>
         			<li class="result" style="display: none;">
         				<img src="./fmjs_icon3.png" />
-        				<a class="viewResults" :to="{path:'/seeresult',query:{id:recommendId}}"><span>查看结果</span></a>
+        				<router-link class="viewResults" :to="{path:'/seeResult',query:{id:recommendId}}"><span>查看结果</span></router-link>
         			</li>
         		</ul>
         	</div>
@@ -88,7 +88,7 @@ export default {
         }}).then((response) => {
          loading.close()
         that.competition = response.data;
-        console.log(that.competition.data.recommend)
+//      console.log(that.competition.data.recommend)
         //判断列表页竞赛状态
 	      // 在这获取到数据后添加一个私有属性，
         that.competition.data.list.forEach(item => {

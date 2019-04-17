@@ -71,7 +71,7 @@
 				}).then((response) => {
 					loading.close()
 					that.answerComparison = response.data.data;
-					console.log(that.answerComparison)
+//					console.log(that.answerComparison)
 					that.count = that.answerComparison.success_count;
 					that.score = that.answerComparison.fraction;
 				})

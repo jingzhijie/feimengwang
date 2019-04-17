@@ -7,9 +7,7 @@
 		<router-link :to="{path:'/seeresult',query: {id: this.$route.query.id}}"><a class="seeResult"><img src="./moni.png" class="signimg" />查看结果</a></router-link>
 		<router-link :to="{path:'/signup',query: {id: this.$route.query.id}}"><a class="signUp"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a></router-link>
 		</div>
-		<div class="content1" v-html="competitionDetail.content">
-
-		</div>
+		<div class="content1" v-html="competitionDetail.content"></div>
 	</div>
 </template>
 
@@ -101,7 +99,7 @@
 					//赛前模拟
 					that.beforeImitate = response.data;
 
-					console.log(that.beforeImitate.status)
+//					console.log(that.beforeImitate.status)
 					let contestStatus = that.beforeImitate.status;
 					if(contestStatus == 1){
 						this.$router.push({path:'/answer',query: {id: this.$route.query.id}})
@@ -220,5 +218,13 @@
 		background: #fff;
 		background-size: 100%;
 		margin-top: 30px;
+		font-size: 14px;
+		color: #444;
+		line-height: 25px;
+	}
+	.content1 p{
+		font-size: 14px !important;
+		color: #444 !important;
+		line-height: 25px !important;
 	}
 </style>

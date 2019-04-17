@@ -10,6 +10,7 @@ import CompetitionDetail from '@/components/competition/competitionDetail'
 import SignUp from '@/components/csignup/signup'
 import Answer from '@/components/answer/answer'
 import Asubject from '@/components/asubject/asubject'
+import SeeResult from '@/components/aseeresult/seeResult'
 Vue.use(Router)
 
 const router = new Router({
@@ -50,6 +51,10 @@ const router = new Router({
     {
 		    path:'/competitionDetail',
 		    component:CompetitionDetail
+		},
+    {
+		    path:'/seeResult',
+		    component:SeeResult
 		},
     {
       path: '/login',

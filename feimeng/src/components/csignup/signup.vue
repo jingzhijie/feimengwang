@@ -139,7 +139,7 @@
 					loading.close()
 					that.signUp = response.data.data;
 					that.address = response.data;
-					console.log(that.address)
+//					console.log(that.address)
 					let addressArray = new Array();
 					//遍历地区数组  = that.address.provinces
 					that.address.provinces.forEach(item => {
@@ -187,7 +187,7 @@
 				}).then((response) => {
 					loading.close()
 					that.information = response.data.data;
-					console.log(that.information)
+//					console.log(that.information)
 					that.form.name = that.information.name;
 					that.form.birthday = that.information.birthday;
 					that.form.tel = that.information.phone;
@@ -215,7 +215,7 @@
 			    }
 				//验证生日不为空
 				let birthday = this.form.birthday;
-				console.log(birthday)
+//				console.log(birthday)
 				if(birthday==null){
 			     	this.$message.error('出生日期不能为空');
 			        return false;
@@ -273,7 +273,7 @@
 				}).then((response) => {
 					loading.close()
 					that.information = response.data.data;
-					console.log(that.information)
+//					console.log(that.information)
 				})
 				.catch(function (error) {
 		          console.log(error)

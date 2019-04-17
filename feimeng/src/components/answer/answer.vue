@@ -197,7 +197,7 @@
 						 this.$message.error(response.data.info);
 						 return;
 					}
-					console.log(response.data.status)
+//					console.log(response.data.status)
 					that.answerDetail = response.data.data;
 					that.allNum = that.answerDetail.num;
 

@@ -1,43 +1,47 @@
 <template>
 	<div class="containerBox3">
-		<div class="title3"><img class="back" @click="$router.go(-1)" src="./back.png" alt="">飞梦网</div>
-		<div class="headline">{{titleName}}</div>
-		<div class="selection">评选结果</div>
-		<div class="noticeContent" v-html="winner.find.reward_info"></div>
-		<div class="groupClass">
-			<div class="oldGroupClass"><span>获奖名单({{groupClass}})</span></div>
+		<div class="endTop">
+			<div class="title3"><img class="back" @click="$router.go(-1)" src="./back.png" alt="">飞梦网</div>
 		</div>
-		<div class="onePrize">
+		<div class="endBottom">
+			<div class="headline">{{titleName}}</div>
+			<div class="selection">评选结果</div>
+			<div class="noticeContent" v-html="winner.find.reward_info"></div>
 			<div class="groupClass">
-				<div class="firstPrize">一等奖</div>
+				<div class="oldGroupClass"><span>获奖名单({{groupClass}})</span></div>
 			</div>
-			<div class="groupClassical">
-				<div class="theFirst" v-for="(item,index) in winner.first_prize" :key = 'index' >
-					<p>{{item.username}}</p>
-					<p>{{item.school_name}}</p>
-					<p>{{people}}</p>
+			<div class="onePrize">
+				<div class="groupClass">
+					<div class="firstPrize">一等奖</div>
+				</div>
+				<div class="groupClassical">
+					<div class="theFirst" v-for="(item,index) in winner.first_prize" :key = 'index' >
+						<p>{{item.username}}</p>
+						<p>{{item.school_name}}</p>
+						<p>{{people}}</p>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="twoPrize">
-			<div class="groupClass">
-				<div class="firstPrize">二等奖</div>
-			</div>
-			<div class="groupClassical">
-				<div class="theFirst" v-for="(item,index) in winner.second_prize" :key = 'index' >
-					<p>{{item.username}}</p>
-					<p>{{item.school_name}}</p>
+			<div class="twoPrize">
+				<div class="groupClass">
+					<div class="firstPrize">二等奖</div>
+				</div>
+				<div class="groupClassical">
+					<div class="theFirst" v-for="(item,index) in winner.second_prize" :key = 'index' >
+						<p>{{item.username}}</p>
+						<p>{{item.school_name}}</p>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="threePrize">
-			<div class="groupClass">
-				<div class="firstPrize">三等奖</div>
-			</div>
-			<div class="third">
-				<div class="theFirst" v-for="(item,index) in winner.third_prize" :key = 'index' >
-					<p>{{item.username}}</p>
-					<p>{{item.school_name}}</p>
+			<div class="threePrize">
+				<div class="groupClass">
+					<div class="firstPrize">三等奖</div>
+				</div>
+				<div class="third">
+					<div class="theFirst" v-for="(item,index) in winner.third_prize" :key = 'index' >
+						<p>{{item.username}}</p>
+						<p>{{item.school_name}}</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -120,8 +124,22 @@
 	.containerBox3{
 		width: 100%;
 		height: 100%;
-		background: #fff url(./signupbg.png) no-repeat;
-		background-size: 100%;
+		/*overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;*/
+	}
+	.endTop{
+		width: 100%;
+		height: 180px;
+		background: #fff url(./signup.jpg) no-repeat;
+		background-size: 100% 100%;
+		position: fixed;
+		top: 0;
+	}
+	.endBottom{
+		width: 100%;
+		height: 80%;
+		position: absolute;
+		top:125px;
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
 	}
@@ -187,8 +205,6 @@
 	.noticeContent{
 		width: 90%;
 		padding: 0 5% 10%;
-		background: #fff;
-		background-size: 100%;
 		margin-top: 20px;
 	}
 	.noticeContent p{
@@ -199,7 +215,6 @@
 	.headline{
 		width: 100%;
 		height: 60px;
-		margin-top: 40px;
 		line-height: 80px;
 		text-align: center;
 		font-weight: bold;

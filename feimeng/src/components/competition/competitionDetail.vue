@@ -1,11 +1,13 @@
 <template>
 	<div class="container">
-		<div class="title"><img class="back" @click="backList" src="./back.png" alt=""></div>
-		<div class="detailTitle">{{competitionDetail.competition_name}}</div>
-		<div class="selectBtn">
-		<a class="analog" @click="beforeSimulation"><img src="./moni.png" class="signimg" />赛前模拟</a>
-		<router-link :to="{path:'/seeresult',query: {id: this.$route.query.id}}"><a class="seeResult"><img src="./moni.png" class="signimg" />查看结果</a></router-link>
-		<router-link :to="{path:'/signup',query: {id: this.$route.query.id}}"><a class="signUp"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a></router-link>
+		<div class="fixtop">
+			<div class="title"><img class="back" @click="backList" src="./back.png" alt=""></div>
+			<div class="detailTitle">{{competitionDetail.competition_name}}</div>
+			<div class="selectBtn">
+			<a class="analog" @click="beforeSimulation"><img src="./moni.png" class="signimg" />赛前模拟</a>
+			<router-link :to="{path:'/seeresult',query: {id: this.$route.query.id}}"><a class="seeResult"><img src="./moni.png" class="signimg" />查看结果</a></router-link>
+			<router-link :to="{path:'/signup',query: {id: this.$route.query.id}}"><a class="signUp1"><img src="./baoming.png" class="signimg" />{{competitionStatus}}</a></router-link>
+			</div>
 		</div>
 		<div class="content1" v-html="competitionDetail.content"></div>
 	</div>
@@ -73,10 +75,10 @@
 						}
 						$(".seeResult").hide()
 						$(".analog").show();
-						$(".signUp").show();
+						$(".signUp1").show();
 					}else {
 						$(".analog").hide();
-						$(".signUp").hide();
+						$(".signUp1").hide();
 						$(".seeResult").show()
 					}
 					
@@ -127,17 +129,26 @@
 </script>
 
 <style>
+	.fixtop{
+		width: 100%;
+		height: 180px;
+		background:url(./detail.jpg) no-repeat;
+		background-size: 100% 100%;
+		position: fixed;
+		top: 0;
+	}
 	.signimg {
 		width: 15px;
 		height: 15px;
 		margin-right: 5px;
+		margin-bottom: 1px;
 	}
 	
 	.analog {
-		padding: 7px 10px;
+		padding: 0px 10px;
 		background: white;
 		border-radius: 20px;
-		line-height: 10px;
+		line-height: 28px;
 		margin-top: 10px;
 		color: #5ca7ef;
 		font-size: 14px;
@@ -154,11 +165,11 @@
 		float: right;
 		display: none;
 	}
-	.signUp {
-		padding: 7px 10px;
+	.signUp1 {
+		padding: 0px 10px;
 		background: white;
 		border-radius: 20px;
-		line-height: 10px;
+		line-height: 28px;
 		margin-top: 10px;
 		color: #5ca7ef;
 		font-size: 14px;
@@ -169,12 +180,12 @@
 	.container {
 		width: 100%;
 		height: 100%;
-		background: #fff url(./indexbbg.png) no-repeat;
-		background-size: 100%;
-		position: absolute;
-		display: block;
-		overflow-y: scroll;
-		-webkit-overflow-scrolling: touch;
+		/*background: #fff url(./indexbbg.png) no-repeat;*/
+		/*background-size: 100%;*/
+		/*position: absolute;*/
+		/*display: block;*/
+		/*overflow-y: scroll;*/
+		/*-webkit-overflow-scrolling: touch;*/
 	}
 	
 	.back {
@@ -214,13 +225,17 @@
 	
 	.content1 {
 		width: 90%;
+		height: 80%;
 		padding: 0 5% 15%;
-		background: #fff;
+		/*background: #fff;*/
 		background-size: 100%;
-		margin-top: 30px;
 		font-size: 14px;
 		color: #444;
 		line-height: 25px;
+		position: absolute;
+		top: 180px;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
 	}
 	.content1 p{
 		font-size: 14px !important;

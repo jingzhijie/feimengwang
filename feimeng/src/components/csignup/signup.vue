@@ -1,5 +1,6 @@
 <template>
 	<div class="containerBox">
+		<div class="topBg">
 		<div class="title"><img class="back" @click="$router.go(-1)" src="./back.png" alt="">飞梦网</div>
 		<div class="signupTitle">
 			我要报名
@@ -8,72 +9,75 @@
 			(<b style="color: red;margin: 0 3px;">*</b>为必填项)
 			<span class="receive" v-on:click="getInformation()">一键获取</span>
 		</div>
-		<!--<div class="tiao1"></div>-->
-		<div class="competitionGroup">
-			<p><b style="color: red;margin: 0 2px;">*</b>参赛组别</p>
-			<el-radio-group v-model="form.grade"> 
-				<p><el-radio :label="false">低年级（1997年01月01日之前出生）</el-radio> </p>
-				<p><el-radio :label="true">高年级（1997年01月01日之后出生）</el-radio> </p>
-			 </el-radio-group>
 		</div>
-		<div class="tiao"></div>
-		<div class="realName">
-			<p><b style="color: red;">*</b>真实姓名 <el-input v-model="form.name" placeholder="请输入姓名" style="width: 200px;margin-left: 5px;"></el-input> </p>
-		</div>
-		<div class="xian"><div class="neixian"></div></div>
-		<div class="birthday">
-			<p><b style="color: red;">*</b>出生日期<el-date-picker type="date" placeholder="请选择出生日期" v-model="form.birthday" style="width: 200px;margin-left: 10px;"></el-date-picker> </p>
-		</div>
-		<div class="xian"><div class="neixian"></div></div>
-		<div class="sex">
-			<p>
-				<b style="color: red;">*</b>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别
-				<el-radio-group v-model="form.sex" style="width: 200px;margin-left: 20px;"> 
-					<el-radio :label="false">男</el-radio> <el-radio :label="true">女</el-radio> 
-				</el-radio-group>
-			</p>
-		</div>
-		<div class="xian"><div class="neixian"></div></div>
-		<div class="region">
-			<p><b style="color: red;">*</b>所在地区
-				<el-select v-model="provinces" placeholder="请选择" @change="changeProvinces" style="width: 140px;margin-left: 10px;">
-			    <el-option
-			      v-for="(item,index) in options"
-			      :label="item.name"
-			      :value="item.id" 
-			      :key='index'>
-			    </el-option>
-			  </el-select>
-				<el-select v-model="city" placeholder="请选择" style="width: 140px;">
-			    <el-option
-			      v-for="(item,index) in optionsChild"
-			      :label="item.name"
-			      :value="item.id"
-			      :key='index'>
-			    </el-option>
-			  </el-select>
-			  <el-input v-model="form.address" placeholder="请输入" style="width: 250px;margin-left: 5px;"></el-input>
-			</p>
-		</div>
-		<div class="xian"><div class="neixian"></div></div>
-		<div class="tel">
-			<p><b style="color: red;">*</b>联系方式 <el-input v-model="form.tel" placeholder="获奖后，方便我们与你联系" style="width: 200px;margin-left: 5px;"></el-input> </p>
-		</div>
-		<div class="xian"><div class="neixian"></div></div>
-		<div class="idNumber">
-			<p><b style="color: red;">*</b>身份证号 <el-input v-model="form.idNumber" placeholder="获奖后，验证您身份的唯一凭证" style="width: 230px;margin-left: 5px;"></el-input> </p>
-		</div>
-		<div class="schoolName">
-			<p><b style="color: red;">*</b>学校名称/工作单位 <el-input v-model="form.schoolName" placeholder="请填写学校名称/工作单位" style="width: 230px;margin-left: 5px;"></el-input> </p>
-		</div>
-		<div class="xian"><div class="neixian"></div></div>
-		<div class="realemail">
-			<p><b style="color: red;">*</b>邮箱<el-input v-model="form.email" placeholder="请输入邮箱" style="width: 230px;margin-left: 5px;"></el-input> </p>
-		</div>
-		<div class="xian"><div class="neixian"></div></div>
-		<div class="footbtn">
-			<a class="modify" @click="checkSign()">修改</a>
-			<a class="goback" @click="$router.go(-1)">返回</a>
+		<div class="bottomBg">
+			<div class="tiao1"></div>
+			<div class="competitionGroup">
+				<p><b style="color: red;margin: 0 2px;">*</b>参赛组别</p>
+				<el-radio-group v-model="form.grade"> 
+					<p><el-radio :label="false">低年级（1997年01月01日之前出生）</el-radio> </p>
+					<p><el-radio :label="true">高年级（1997年01月01日之后出生）</el-radio> </p>
+				 </el-radio-group>
+			</div>
+			<div class="tiao"></div>
+			<div class="realName">
+				<p><b style="color: red;">*</b>真实姓名 <el-input v-model="form.name" placeholder="请输入姓名" style="width: 200px;margin-left: 5px;"></el-input> </p>
+			</div>
+			<div class="xian"><div class="neixian"></div></div>
+			<div class="birthday">
+				<p><b style="color: red;">*</b>出生日期<el-date-picker type="date" placeholder="请选择出生日期" v-model="form.birthday" style="width: 200px;margin-left: 10px;"></el-date-picker> </p>
+			</div>
+			<div class="xian"><div class="neixian"></div></div>
+			<div class="sex">
+				<p>
+					<b style="color: red;">*</b>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别
+					<el-radio-group v-model="form.sex" style="width: 200px;margin-left: 20px;"> 
+						<el-radio :label="false">男</el-radio> <el-radio :label="true">女</el-radio> 
+					</el-radio-group>
+				</p>
+			</div>
+			<div class="xian"><div class="neixian"></div></div>
+			<div class="region">
+				<p><b style="color: red;">*</b>所在地区
+					<el-select v-model="provinces" placeholder="请选择" @change="changeProvinces" style="width: 140px;margin-left: 10px;">
+				    <el-option
+				      v-for="(item,index) in options"
+				      :label="item.name"
+				      :value="item.id" 
+				      :key='index'>
+				    </el-option>
+				  </el-select>
+					<el-select v-model="city" placeholder="请选择" style="width: 140px;">
+				    <el-option
+				      v-for="(item,index) in optionsChild"
+				      :label="item.name"
+				      :value="item.id"
+				      :key='index'>
+				    </el-option>
+				  </el-select>
+				  <el-input v-model="form.address" placeholder="请输入" style="width: 250px;margin-left: 5px;"></el-input>
+				</p>
+			</div>
+			<div class="xian"><div class="neixian"></div></div>
+			<div class="tel">
+				<p><b style="color: red;">*</b>联系方式 <el-input v-model="form.tel" placeholder="获奖后，方便我们与你联系" style="width: 200px;margin-left: 5px;"></el-input> </p>
+			</div>
+			<div class="xian"><div class="neixian"></div></div>
+			<div class="idNumber">
+				<p><b style="color: red;">*</b>身份证号 <el-input v-model="form.idNumber" placeholder="获奖后，验证您身份的唯一凭证" style="width: 230px;margin-left: 5px;"></el-input> </p>
+			</div>
+			<div class="schoolName">
+				<p><b style="color: red;">*</b>学校名称/工作单位 <el-input v-model="form.schoolName" placeholder="请填写学校名称/工作单位" style="width: 230px;margin-left: 5px;"></el-input> </p>
+			</div>
+			<div class="xian"><div class="neixian"></div></div>
+			<div class="realemail">
+				<p><b style="color: red;">*</b>邮箱<el-input v-model="form.email" placeholder="请输入邮箱" style="width: 230px;margin-left: 5px;"></el-input> </p>
+			</div>
+			<div class="xian"><div class="neixian"></div></div>
+			<div class="footbtn">
+				<a class="modify" @click="checkSign()">{{modifySub}}</a>
+				<a class="goback" @click="$router.go(-1)">返回</a>
+			</div>
 		</div>
 	</div>
 </template>
@@ -101,7 +105,8 @@
 				 options: [],
                  optionsChild:[],
       			 provinces:'',
-      			 city:''
+      			 city:'',
+      			 modifySub:''
 				
 			}
 		},
@@ -150,6 +155,11 @@
 					//将获取的省级目录放置 options 里
 					this.options = addressArray;
 //					console.log(that.signUp)
+					if(that.signUp == null){
+						that.modifySub = '提交';
+					}else{
+						that.modifySub = '修改';
+					}
 					that.form.name = that.signUp.name;
 					that.form.birthday = that.signUp.birthday;
 					that.form.tel = that.signUp.phone;
@@ -164,7 +174,8 @@
 					//进页面就调用方法 然后在下面赋值city
 					this.changeProvinces(that.signUp.province,that.signUp.city)
 //					this.changeProvinces(that.information.provinces,that.information.city)
-					
+					//判断如果没有报名 下面的修改 改成提交
+//					that.modifySub = that.signUp === null ? '提交' : '修改';
 					
 				})
 				.catch(function (error) {
@@ -187,6 +198,11 @@
 				}).then((response) => {
 					loading.close()
 					that.information = response.data.data;
+					if(that.information == !null){
+						that.modifySub = '提交';
+					}else{
+						that.modifySub = '修改';
+					}
 //					console.log(that.information)
 					that.form.name = that.information.name;
 					that.form.birthday = that.information.birthday;
@@ -206,7 +222,7 @@
 		        })
 			},
 			//提交接口
-			checkSign(){
+			checkSign(id){
 				//验证字段不为空
 				let name = this.form.name;
 				if(name=='' || name.length==0){
@@ -267,13 +283,23 @@
 						phone:that.form.tel,
 						identity:that.form.idNumber,
 						company:that.form.schoolName,
-						email:that.form.email,
-						id:that.signUp.id
+						email:that.form.email
 					}
 				}).then((response) => {
 					loading.close()
-					that.information = response.data.data;
-//					console.log(that.information)
+					that.information = response.data;
+					console.log(that.information)
+					if(that.information.status == !1){
+						this.$message.error(that.information.info);
+					}else{
+									this.$message({
+							          message: '报名成功',
+							          type: 'success',
+							          duration:3000
+							        });
+						this.$router.push({path:'/competitionDetail',query: {id: this.$route.query.id}})
+			
+					}
 				})
 				.catch(function (error) {
 		          console.log(error)
@@ -346,13 +372,20 @@
     }
     return tip;
 }
-			
 </script>
 
 <style>
 	.el-input__inner{
 		border:none;
 		outline: none;
+	}
+	.bottomBg{
+		width: 100%;
+		height: 80%;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+		position: absolute;
+		top: 170px;
 	}
 	.receive{
 		padding: 8px 15px;
@@ -366,10 +399,17 @@
 	.containerBox{
 		width: 100%;
 		height: 100%;
-		background: #fff url(./signupbg.png) no-repeat;
+		/*background: #fff url(./signup.jpg) no-repeat;*/
 		background-size: 100%;
-		overflow-y: scroll;
-		-webkit-overflow-scrolling: touch;
+		
+	}
+	.topBg{
+		width: 100%;
+		height: 170px;
+		background: #fff url(./signup.jpg) no-repeat;
+		background-size: 100%;
+		position: fixed;
+		top: 0;
 	}
 	.footbtn{
 		width: 100%;
@@ -502,7 +542,7 @@
 	.tiao{
 		width: 100%;
 		height: 8px;
-		background: #fff;
+		background: #f8f6f9;
 		margin: 10px 0;
 	}
 	.tiao1{

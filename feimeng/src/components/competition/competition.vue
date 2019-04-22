@@ -6,7 +6,7 @@
     <div class="poBottom">
     <div class="competitionmain">
       <div class="competitionbanner">
-        <div class="content">
+        <div class="content_box">
         	<div class="recommendbg">
         		<div class="recommendbg-title">
         			<p>歌尔杯2018荣成全国航空 嘉年华活动成功起航</p>
@@ -22,7 +22,7 @@
         			</li>
         			<li class="mock">
         				<img src="./fmjs_icon3.png" />
-        				<router-link class="beforeMock" :to="{path:'/answer',query:{id:recommendId}}"><span>赛前模拟</span></router-link>
+        				<a @click="beforeMock"><span>赛前模拟</span></a>
         			</li>
         			<li class="result" style="display: none;">
         				<img src="./fmjs_icon3.png" />
@@ -143,6 +143,30 @@ export default {
           console.log(error)
         })
        },
+       beforeMock(){
+				let that = this;
+				axios.get(Global.baseURL + '/Mobile/Competition/checkSign.html', {
+					params: {
+						cid: that.recommendId,
+						uid: that.myData.uid
+					}
+				}).then((response) => {
+					//赛前模拟
+					that.beforeImitate = response.data;
+
+//					console.log(that.beforeImitate.status)
+					let contestStatus = that.beforeImitate.status;
+					if(contestStatus == 1){
+						this.$router.push({path:'/answer',query: {id: that.recommendId}})
+					}else{
+						this.$message.error(response.data.info);
+					}
+					
+				})
+				.catch(function (error) {
+		          console.log(error)
+		        })
+			},
        getdata() {
          let that = this
          let userinfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -211,7 +235,7 @@ export default {
 	background-size: cover;
 }
 
-.content {
+.content_box {
 	padding: 0 14px;
 	height: 200px;
 	overflow: hidden;
@@ -250,7 +274,7 @@ export default {
 .recommendul li {
 	display: flex;
 	width: 22%;
-	padding: 5px 10px;
+	padding: 7px 10px;
 	font-size: 14px;
 	border-radius: 5px;
 	background: #ffeea3;
@@ -321,7 +345,7 @@ export default {
 	padding: 0px 10px;
 	background: #0083e7;
 	border-radius: 20px;
-	line-height: 22px;
+	line-height: 28px;
 	float: right;
 	margin-top: 10px;
 	color: white;

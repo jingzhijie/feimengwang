@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container" v-if="show">
 		<div class="fixtop">
 			<div class="title"><img class="back" @click="backList" src="./back.png" alt=""></div>
 			<div class="detailTitle">{{competitionDetail.competition_name}}</div>
@@ -25,7 +25,8 @@
 				competitionDetail: {
 					content: ''
 				},
-				competitionStatus: ''
+				competitionStatus: '',
+				show:true
 			}
 		},
 		watch: {
@@ -36,6 +37,8 @@
 					//路由变化获取接口id
 					this.getCompetitionDetail(this.$route.query.id)
 				}
+//				console.log(to.path)
+//				console.log(from.path)
 			}
 		},
 		//页面创建之后执行

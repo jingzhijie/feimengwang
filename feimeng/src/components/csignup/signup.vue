@@ -13,11 +13,14 @@
 		<div class="bottomBg">
 			<div class="tiao1"></div>
 			<div class="competitionGroup">
-				<p><b style="color: red;margin: 0 2px;">*</b>参赛组别</p>
-				<el-radio-group v-model="form.grade"> 
-					<p><el-radio :label="false">低年级（1997年01月01日之前出生）</el-radio> </p>
-					<p><el-radio :label="true">高年级（1997年01月01日之后出生）</el-radio> </p>
-				 </el-radio-group>
+				<p><span style="font-size: 14px;color: #999;">(以1997年01月01日为界限)</span></p>
+				<p>
+					<b style="color: red;margin: 0 2px;">*</b>参赛组别 
+					<el-radio-group v-model="form.grade"  style="margin-left: 20px;"> 
+						<el-radio :label="false" @change="low">低年级</el-radio> 
+						<el-radio :label="true">高年级</el-radio>
+					</el-radio-group>
+				</p>
 			</div>
 			<div class="tiao"></div>
 			<div class="realName">
@@ -39,22 +42,23 @@
 			<div class="xian"><div class="neixian"></div></div>
 			<div class="region">
 				<p><b style="color: red;">*</b>所在地区
-					<el-select v-model="provinces" placeholder="请选择" @change="changeProvinces" style="width: 140px;margin-left: 10px;">
-				    <el-option
-				      v-for="(item,index) in options"
-				      :label="item.name"
-				      :value="item.id" 
-				      :key='index'>
-				    </el-option>
-				  </el-select>
-					<el-select v-model="city" placeholder="请选择" style="width: 140px;">
-				    <el-option
-				      v-for="(item,index) in optionsChild"
-				      :label="item.name"
-				      :value="item.id"
-				      :key='index'>
-				    </el-option>
-				  </el-select>
+						<el-select v-model="provinces" placeholder="请选择" @change="changeProvinces" style="width:30%;margin-left: 10px;">
+					    <el-option
+					      v-for="(item,index) in options"
+					      :label="item.name"
+					      :value="item.id" 
+					      :key='index'>
+					    </el-option>
+					  </el-select>
+						<el-select v-model="city" placeholder="请选择" style="width: 37%;">
+					    <el-option
+					      v-for="(item,index) in optionsChild"
+					      :label="item.name"
+					      :value="item.id"
+					      :key='index'>
+					    </el-option>
+					  </el-select>
+					  <br />
 				  <el-input v-model="form.address" placeholder="请输入" style="width: 250px;margin-left: 5px;"></el-input>
 				</p>
 			</div>
@@ -92,7 +96,7 @@
 				form: {
 				  name:'',
 		          birthday:'',
-		          grade: '',
+		          grade: true,
 		          sex:'',
 		          tel:'',
 		          idNumber:'',
@@ -127,6 +131,10 @@
 		},
 		
 		methods: {
+			low(){
+				this.form.sex = false; 
+				console.log(1)
+			},
 			getsignUp(){
 				let that = this
 				let loading = Loading.service({
@@ -376,8 +384,13 @@
 
 <style>
 	.el-input__inner{
-		border:none;
-		outline: none;
+		border:none !important;
+		outline: none !important;
+	}
+	.radioInp{
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
 	}
 	.bottomBg{
 		width: 100%;
@@ -388,7 +401,7 @@
 		top: 170px;
 	}
 	.receive{
-		padding: 8px 15px;
+		padding: 9px 15px;
 	    background: #e7f4ff;
 	    border-radius: 15px;
 	    line-height: 10px;
@@ -494,6 +507,7 @@
 		letter-spacing: 1px;
 	}
 	.region p{
+		width: 100%;
 		line-height: 50px;
 	}
 	.sex{
@@ -534,7 +548,7 @@
 		
 	}
 	.competitionGroup p{
-		line-height: 40px;
+		line-height: 30px;
 	}
 	.competitionGroup p input{
 		margin-right: 10px;

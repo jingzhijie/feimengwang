@@ -1,5 +1,5 @@
 <template>
-	<div class="containerBox1">
+	<div class="containerBox1" v-if="flag">
 		<div class="title1"><img class="submit" @click="mask" src="./wrong.png" alt=""></div>
 		<div class="detailTitle1">
 			<p>首届航空工业"全国通航日"航空知识 </p>
@@ -61,7 +61,8 @@
 				nextNum:'',
 				problem:'',
 				options:[],
-				answerArray:new Array()
+				answerArray:new Array(),
+				flag:true
 			}
 		},
 		watch: {
@@ -72,11 +73,20 @@
 					//路由变化获取接口id
 					this.getAnswerDetail(this.$route.query.id)
 				}
+//				if(to.path !== '/asubject') {
+//                    this.flag = false;
+//                }
+//				if (from.path =='/competition') {
+//					this.show = true;
+//				}
 			}
 		},
 		//页面创建之后执行
 		created() {
 			this.getdata()
+			
+		},
+		mounted() {
 			this.getAnswerDetail(this.$route.query.id)
 		},
 		methods: {
@@ -179,6 +189,7 @@
 			},
 			//获取问题接口
 			getAnswerDetail(id) {
+				console.log(1)
 				let that = this
 				let loading = Loading.service({
 					lock: true,
@@ -193,7 +204,7 @@
 				}).then((response) => {
 					loading.close()
 					if(response.data.status == -1){
-						this.$router.push({path:'/competitionDetail',query: {id: this.$route.query.id}})
+//						this.$router.push({path:'/competitionDetail',query: {id: this.$route.query.id}})
 						 this.$message.error(response.data.info);
 						 return;
 					}
@@ -235,10 +246,6 @@
 				for(let i = 0;i<that.answerArray.length-1;i++){
 					newArray[i] = that.answerArray[i+1];
 				}
-//				console.log(newArray)
-//				let newString = JSON.stringify(newArray); 
-//				console.log(newString) 
-				//return false;
 				axios.get(Global.baseURL + '/Mobile/Competition/submitSubject.html', {
 					params: {
 						cid: this.$route.query.id,
@@ -251,13 +258,20 @@
 					let answerStatus = response.data.status;
 					let answerInfo = response.data.info;
 					if(answerStatus == 1){
-						this.$router.push({path:'/asubject',query: {id: this.$route.query.id}})
-						 this.$message({message:"提交成功",type: 'success'});
-						 return;
+						this.$message({message:"提交成功",type: 'success'});
+						 let that = this;
+						 setTimeout(function(){
+							that.$router.push({path:'/asubject',query: {id: that.$route.query.id}})
+						 },1000);
+ 						return;
 					}
 					if(answerStatus == -1){
-//						this.$router.push({path:'/asubject',query: {id: this.$route.query.id}})
 						this.$message.error('提交失败');
+						 let that = this;
+						 setTimeout(function(){
+						 	
+							that.$router.push({path:'/comprtitionDetail',query: {id: that.$route.query.id}})
+						 },1000);
 						 return;
 						
 					}
@@ -356,6 +370,7 @@
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
+		margin-top: 10px;
 	}
 	.wrong{
 		width: 100%;

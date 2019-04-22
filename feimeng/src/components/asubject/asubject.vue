@@ -42,7 +42,8 @@
 		watch: {
 			'$route' (to, from) {
 				// 对路由变化作出响应...
-				//    console.log(this.$route.query.id,'-------------id')
+				    console.log(this.$route.query.id,'-------------id')
+				    return;
 				if(this.$route.query.id) {
 					//路由变化获取接口id
 					this.answerComparison(this.$route.query.id)
@@ -56,7 +57,7 @@
 
 		},
 		methods: {
-			answerComparison(id) {
+			answerComparison() {
 				let that = this
 				let loading = Loading.service({
 					lock: true,
@@ -65,7 +66,7 @@
 				})
 				axios.get(Global.baseURL + '/Mobile/Competition/competitionreturn.html', {
 					params: {
-						cid: id,
+						cid: this.$route.query.id,
 						uid: that.myData.uid
 					}
 				}).then((response) => {
@@ -99,12 +100,15 @@
 		background-size: 100% 100%;
 	}
 	.rightKey{
+		font-size: 14px;
 		color: #00854b;
 	}
 	.answerTrue{
+		font-size: 14px;
 		color: #00854b;
 	}
 	.youChoose{
+		font-size: 14px;
 		color: #fa4a2e;
 	}
 	.answerFalse{
@@ -119,7 +123,7 @@
 		line-height: 25px;
 	}
 	.subright1 span{
-		font-size: 16px;
+		font-size: 14px;
 	}
 	.roucket1{
 		width: 100px;
@@ -152,7 +156,7 @@
 	.answerTitle{
 		width: 100%;
 		color: #ffffff;
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: bold;
 		line-height: 40px;
 		margin-bottom: 10px;

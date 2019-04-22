@@ -211,7 +211,7 @@
 //					console.log(response.data.status)
 					that.answerDetail = response.data.data;
 					that.allNum = that.answerDetail.num;
-
+					that.answerArray = [];
 					that.rendering(1,that.answerDetail[0]);
 				})
 			},
